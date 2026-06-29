@@ -30,7 +30,7 @@ const labels = {
     served: "服务率",
     shed: "弃供 kWh",
     pdr: "包交付率",
-    delay: "延迟 ms",
+    delay: "时延 ms",
     powered: "带电控制器",
     restored: "恢复边",
     blocked: "阻塞",
@@ -76,9 +76,7 @@ function parseCSV(text) {
 
 async function loadCSV(path) {
   const response = await fetch(path);
-  if (!response.ok) {
-    throw new Error(`Cannot load ${path}`);
-  }
+  if (!response.ok) throw new Error(`Cannot load ${path}`);
   return parseCSV(await response.text());
 }
 
@@ -93,20 +91,73 @@ function cleanMethod(name) {
     .trim();
 }
 
-function number(value, digits = 2) {
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function numeric(value) {
   const n = Number(value);
-  if (!Number.isFinite(n)) return value ?? "";
+  return Number.isFinite(n) ? n : null;
+}
+
+function number(value, digits = 2) {
+  const n = numeric(value);
+  if (n === null) return value ?? "";
   return n.toFixed(digits);
 }
 
+function signedNumber(value, digits = 2) {
+  const n = numeric(value);
+  if (n === null) return "";
+  return `${n >= 0 ? "+" : ""}${n.toFixed(digits)}`;
+}
+
 function percent(value, digits = 1) {
-  const n = Number(value);
-  if (!Number.isFinite(n)) return value ?? "";
+  const n = numeric(value);
+  if (n === null) return value ?? "";
   return `${(n * 100).toFixed(digits)}%`;
+}
+
+function signedPercentPoint(value, digits = 1) {
+  const n = numeric(value);
+  if (n === null) return "";
+  const pp = n * 100;
+  return `${pp >= 0 ? "+" : ""}${pp.toFixed(digits)} pp`;
 }
 
 function cell(row, key, formatter = number) {
   return formatter(row[key]);
+}
+
+function mainSafeRow(rows) {
+  return rows.find((row) => row.displayMethod === "SAFE-GPINN") || null;
+}
+
+function metricCell(row, safeRow, key, options = {}) {
+  const {
+    formatter = number,
+    deltaFormatter = signedNumber,
+    higherBetter = true,
+  } = options;
+  const value = numeric(row[key]);
+  const safeValue = numeric(safeRow?.[key]);
+  const main = escapeHtml(formatter(row[key]));
+  if (row.displayMethod === "SAFE-GPINN" || value === null || safeValue === null) {
+    return `<span class="main-value">${main}</span>`;
+  }
+
+  const diff = value - safeValue;
+  const epsilon = 1e-9;
+  const better = higherBetter ? value > safeValue + epsilon : value < safeValue - epsilon;
+  const worse = higherBetter ? value < safeValue - epsilon : value > safeValue + epsilon;
+  const deltaClass = better ? "delta-better" : worse ? "delta-worse" : "delta-neutral";
+  const delta = escapeHtml(deltaFormatter(diff));
+  return `<span class="main-value">${main}</span><span class="delta ${deltaClass}">(${delta})</span>`;
 }
 
 function renderTable(table, headers, rows, rowClass = () => "") {
@@ -116,9 +167,11 @@ function renderTable(table, headers, rows, rowClass = () => "") {
   headers.forEach((header) => {
     const th = document.createElement("th");
     th.textContent = header.label;
+    if (header.keyMetric) th.classList.add("key-metric");
     tr.appendChild(th);
   });
   thead.appendChild(tr);
+
   const tbody = document.createElement("tbody");
   rows.forEach((row) => {
     const bodyTr = document.createElement("tr");
@@ -126,7 +179,10 @@ function renderTable(table, headers, rows, rowClass = () => "") {
     if (klass) bodyTr.className = klass;
     headers.forEach((header) => {
       const td = document.createElement("td");
-      td.textContent = header.value(row);
+      if (header.keyMetric) td.classList.add("key-metric");
+      const value = header.value(row);
+      if (header.html) td.innerHTML = value;
+      else td.textContent = value;
       bodyTr.appendChild(td);
     });
     tbody.appendChild(bodyTr);
@@ -153,20 +209,91 @@ function renderMainTable() {
   const rows = state.mainRows
     .map((row) => ({ ...row, displayMethod: cleanMethod(row.method) }))
     .filter((row) => methods.some((m) => row.displayMethod.includes(m)))
-    .sort((a, b) => methods.findIndex((m) => a.displayMethod.includes(m)) - methods.findIndex((m) => b.displayMethod.includes(m)));
+    .sort(
+      (a, b) =>
+        methods.findIndex((m) => a.displayMethod.includes(m)) -
+        methods.findIndex((m) => b.displayMethod.includes(m))
+    );
+  const safe = mainSafeRow(rows);
+
   renderTable(
     document.querySelector("#main-table"),
     [
       { label: l.method, value: (r) => r.displayMethod },
       { label: l.class, value: (r) => r.category },
-      { label: l.reward, value: (r) => cell(r, "total_reward") },
-      { label: l.fr, value: (r) => percent(r.full_restoration_rate, 0) },
-      { label: l.terminal, value: (r) => cell(r, "terminal_time_min") },
-      { label: l.served, value: (r) => percent(r.mean_served_ratio, 1) },
-      { label: l.shed, value: (r) => cell(r, "shed_energy_kwh") },
-      { label: l.pdr, value: (r) => percent(r.mean_packet_delivery_rate, 1) },
-      { label: l.delay, value: (r) => cell(r, "mean_delay_ms") },
-      { label: l.powered, value: (r) => percent(r.powered_controller_rate, 1) },
+      { label: l.reward, html: true, value: (r) => metricCell(r, safe, "total_reward", { higherBetter: true }) },
+      {
+        label: l.fr,
+        html: true,
+        value: (r) =>
+          metricCell(r, safe, "full_restoration_rate", {
+            formatter: (v) => percent(v, 0),
+            deltaFormatter: (v) => signedPercentPoint(v, 0),
+            higherBetter: true,
+          }),
+      },
+      {
+        label: l.terminal,
+        html: true,
+        keyMetric: true,
+        value: (r) =>
+          metricCell(r, safe, "terminal_time_min", {
+            formatter: (v) => number(v, 2),
+            deltaFormatter: (v) => signedNumber(v, 2),
+            higherBetter: false,
+          }),
+      },
+      {
+        label: l.served,
+        html: true,
+        value: (r) =>
+          metricCell(r, safe, "mean_served_ratio", {
+            formatter: (v) => percent(v, 1),
+            deltaFormatter: (v) => signedPercentPoint(v, 1),
+            higherBetter: true,
+          }),
+      },
+      {
+        label: l.shed,
+        html: true,
+        value: (r) =>
+          metricCell(r, safe, "shed_energy_kwh", {
+            formatter: (v) => number(v, 2),
+            deltaFormatter: (v) => signedNumber(v, 2),
+            higherBetter: false,
+          }),
+      },
+      {
+        label: l.pdr,
+        html: true,
+        keyMetric: true,
+        value: (r) =>
+          metricCell(r, safe, "mean_packet_delivery_rate", {
+            formatter: (v) => percent(v, 1),
+            deltaFormatter: (v) => signedPercentPoint(v, 1),
+            higherBetter: true,
+          }),
+      },
+      {
+        label: l.delay,
+        html: true,
+        value: (r) =>
+          metricCell(r, safe, "mean_delay_ms", {
+            formatter: (v) => number(v, 2),
+            deltaFormatter: (v) => signedNumber(v, 2),
+            higherBetter: false,
+          }),
+      },
+      {
+        label: l.powered,
+        html: true,
+        value: (r) =>
+          metricCell(r, safe, "powered_controller_rate", {
+            formatter: (v) => percent(v, 1),
+            deltaFormatter: (v) => signedPercentPoint(v, 1),
+            higherBetter: true,
+          }),
+      },
     ],
     rows,
     (row) => (row.displayMethod === "SAFE-GPINN" ? "highlight" : "")
@@ -257,7 +384,6 @@ init().catch((error) => {
   console.error(error);
   document.body.insertAdjacentHTML(
     "afterbegin",
-    `<div style="padding:12px;background:#fff4d2;color:#5b4300">Data loading failed: ${error.message}</div>`
+    `<div style="padding:12px;background:#fff4d2;color:#5b4300">Data loading failed: ${escapeHtml(error.message)}</div>`
   );
 });
-
