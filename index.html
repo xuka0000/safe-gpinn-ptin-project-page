@@ -6,7 +6,7 @@
     <title>SAFE-GPINN PTIN Project Page</title>
     <meta
       name="description"
-      content="Project page for actionability-shielded fleet dispatch in weak-communication power-transportation-information networks."
+      content="Project page for SAFE-GPINN actionability-shielded restoration in weak-communication power-transportation-information networks."
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -14,10 +14,11 @@
     <header class="site-header">
       <a class="brand" href="#top">SAFE-GPINN</a>
       <nav>
+        <a href="#object" data-en="Object" data-zh="对象">Object</a>
         <a href="#model" data-en="Model" data-zh="模型">Model</a>
         <a href="#algorithm" data-en="Algorithm" data-zh="算法">Algorithm</a>
         <a href="#results" data-en="Results" data-zh="结果">Results</a>
-        <a href="#run" data-en="Run" data-zh="运行">Run</a>
+        <a href="#software" data-en="Software" data-zh="软件">Software</a>
         <a href="#data" data-en="Data" data-zh="数据">Data</a>
       </nav>
       <div class="lang-switch" aria-label="Language switch">
@@ -28,26 +29,39 @@
 
     <main id="top">
       <section class="hero">
-        <p class="eyebrow" data-en="Weak-communication embodied PTIN restoration" data-zh="弱通信具身 PTIN 灾后恢复">
+        <p
+          class="eyebrow"
+          data-en="Weak-communication embodied PTIN restoration"
+          data-zh="弱通信具身 PTIN 灾后恢复"
+        >
           Weak-communication embodied PTIN restoration
         </p>
         <h1
           data-en="Actionability-Shielded Fleet Dispatch for Microgrid Formation in Weak-Communication Power-Transportation-Information Networks"
-          data-zh="SAFE-GPINN：弱通信 PTIN 微电网恢复"
+          data-zh="弱通信电力交通信息网络中面向微电网形成的可执行性屏蔽车队调度"
         >
           Actionability-Shielded Fleet Dispatch for Microgrid Formation in Weak-Communication Power-Transportation-Information Networks
         </h1>
         <p
           class="hero-summary"
-          data-en="SAFE-GPINN turns network-feasible restoration candidates into executable actions by combining EWMAC hard gates, Graph-PINN residual ranking, relay predeployment and closed-loop replay evidence."
-          data-zh="SAFE-GPINN 将网络可行的恢复候选动作进一步转化为可执行动作，结合 EWMAC 硬门控、Graph-PINN 残差排序、UAV 中继预部署和闭环回放证据。"
+          data-en="SAFE-GPINN studies disaster recovery in a coupled power, transportation and communication network. It converts physically feasible restoration candidates into executable actions by checking route reachability, packet evidence, controller availability and mobile-resource state before neural ranking."
+          data-zh="SAFE-GPINN 面向电力、交通和通信耦合网络的灾后恢复问题。该方法在神经排序之前检查路径可达性、通信包证据、控制器可用性和移动资源状态，从而把物理可行的恢复候选转化为可执行动作。"
         >
-          SAFE-GPINN turns network-feasible restoration candidates into executable actions by combining EWMAC hard gates, Graph-PINN residual ranking, relay predeployment and closed-loop replay evidence.
+          SAFE-GPINN studies disaster recovery in a coupled power, transportation and communication network. It converts physically feasible restoration candidates into executable actions by checking route reachability, packet evidence, controller availability and mobile-resource state before neural ranking.
         </p>
         <div class="hero-actions">
           <a href="#results" class="button primary" data-en="View Results" data-zh="查看结果">View Results</a>
           <a href="#software" class="button secondary" data-en="Watch Replay" data-zh="观看回放">Watch Replay</a>
-          <a href="https://github.com/xuka0000/safe-gpinn-ptin-code" target="_blank" rel="noopener" class="button secondary" data-en="Code" data-zh="代码">Code</a>
+          <a
+            href="https://github.com/xuka0000/safe-gpinn-ptin-code"
+            target="_blank"
+            rel="noopener"
+            class="button secondary"
+            data-en="Code"
+            data-zh="代码"
+          >
+            Code
+          </a>
         </div>
         <div class="hero-metrics">
           <div>
@@ -69,18 +83,53 @@
         </div>
       </section>
 
-      <section class="teaser">
-        <img src="assets/restoration_replay.gif" alt="SAFE-GPINN restoration replay animation" />
+      <section class="teaser" aria-label="Software restoration replay">
+        <img src="assets/restoration_replay.gif" alt="SAFE-GPINN restoration replay recorded from PTINPixelViewer" />
       </section>
 
       <section id="abstract" class="section narrow">
         <h2 data-en="Abstract" data-zh="摘要">Abstract</h2>
         <p
-          data-en="Post-disaster microgrid formation increasingly depends on mobile energy storage, electric vehicles and UAV-assisted communication. Weak communication creates an execution gap because a feasible network action can still lack valid packets, route evidence, localization confidence or control authority. SAFE-GPINN addresses this gap by applying EWMAC admission before neural ranking. In five-seed closed-loop experiments, it restores all eight released feeder faults, reaches reward 415.23, reduces shed energy relative to RH-MPC by 103.14 kWh and improves delay by 4.45 ms under the reconstructed PTIN case."
-          data-zh="灾后微电网形成越来越依赖移动储能、电动汽车和 UAV 辅助通信。弱通信会带来执行缺口，因为网络层面可行的动作仍可能缺少有效任务包、路径证据、定位可信度或控制权限。SAFE-GPINN 在神经排序之前先执行 EWMAC 准入判定。在五种随机种子的闭环实验中，该方法恢复全部八个释放故障边，相比 RH-MPC 将弃供电量降低 103.14 kWh，并将通信延迟降低 4.45 ms。"
+          data-en="Post-disaster microgrid formation increasingly depends on mobile energy storage, electric vehicles and UAV-assisted communication. Weak communication creates an execution gap because a network-feasible action can still lack valid packets, route evidence, localization confidence or control authority. SAFE-GPINN closes this gap by applying an EWMAC actionability shield before Graph-PINN ranking and closed-loop execution. In five-seed experiments, it restores all eight released feeder faults and reaches reward 415.23 while maintaining high packet delivery under the reconstructed PTIN case."
+          data-zh="灾后微电网形成越来越依赖移动储能、电动汽车和无人机辅助通信。弱通信会造成执行缺口，因为网络层可行的动作仍可能缺少有效通信包、路径证据、定位置信度或控制权限。SAFE-GPINN 在 Graph-PINN 排序和闭环执行之前引入 EWMAC 可执行性屏蔽，以缩小这一缺口。在五个随机种子的实验中，该方法恢复全部八个释放故障边，并在重构 PTIN 算例中取得 415.23 的奖励和较高的通信包交付率。"
         >
-          Post-disaster microgrid formation increasingly depends on mobile energy storage, electric vehicles and UAV-assisted communication. Weak communication creates an execution gap because a feasible network action can still lack valid packets, route evidence, localization confidence or control authority. SAFE-GPINN addresses this gap by applying EWMAC admission before neural ranking. In five-seed closed-loop experiments, it restores all eight released feeder faults, reaches reward 415.23, reduces shed energy relative to RH-MPC by 103.14 kWh and improves delay by 4.45 ms under the reconstructed PTIN case.
+          Post-disaster microgrid formation increasingly depends on mobile energy storage, electric vehicles and UAV-assisted communication. Weak communication creates an execution gap because a network-feasible action can still lack valid packets, route evidence, localization confidence or control authority. SAFE-GPINN closes this gap by applying an EWMAC actionability shield before Graph-PINN ranking and closed-loop execution. In five-seed experiments, it restores all eight released feeder faults and reaches reward 415.23 while maintaining high packet delivery under the reconstructed PTIN case.
         </p>
+      </section>
+
+      <section id="object" class="section">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow" data-en="Research object" data-zh="研究对象">Research object</p>
+            <h2
+              data-en="Coupled Power, Transportation and Information Network"
+              data-zh="电力交通信息耦合网络"
+            >
+              Coupled Power, Transportation and Information Network
+            </h2>
+          </div>
+          <p
+            data-en="The object is a post-disaster PTIN restoration case. The PDN supplies loads, the UTN constrains mobile-resource travel, and the CN constrains packets, delay and controller authority. Cross-layer dependencies decide whether an apparently feasible restoration action can be executed."
+            data-zh="研究对象是灾后 PTIN 恢复算例。配电网负责负荷供电，交通网约束移动资源行驶，通信网约束通信包、时延和控制权限。跨层依赖决定看似可行的恢复动作能否真正执行。"
+          >
+            The object is a post-disaster PTIN restoration case. The PDN supplies loads, the UTN constrains mobile-resource travel, and the CN constrains packets, delay and controller authority. Cross-layer dependencies decide whether an apparently feasible restoration action can be executed.
+          </p>
+        </div>
+        <figure class="wide-figure object-figure">
+          <img src="assets/figures/ptin_research_object.png" alt="Integrated PTIN research object with PDN, CN and UTN layers" />
+          <figcaption
+            data-en="Reconstructed PTIN research object. The figure separates the integrated case into PDN, CN and UTN layers so the restoration target, communication target and travel substrate can be read together."
+            data-zh="重构 PTIN 研究对象。图中将综合算例拆分为配电层、通信层和交通层，便于同时理解恢复对象、通信对象和移动路径基础。"
+          >
+            Reconstructed PTIN research object. The figure separates the integrated case into PDN, CN and UTN layers so the restoration target, communication target and travel substrate can be read together.
+          </figcaption>
+        </figure>
+        <div class="object-stats">
+          <span><strong>PDN</strong> buses, feeders, released faults</span>
+          <span><strong>UTN</strong> junctions, roads, travel times</span>
+          <span><strong>CN</strong> nodes, links, packet feedback</span>
+          <span><strong>Fleet</strong> MESS, UGV and UAV resources</span>
+        </div>
       </section>
 
       <section id="model" class="section">
@@ -88,39 +137,151 @@
           <p class="eyebrow" data-en="Complete modeling process" data-zh="完整建模过程">Complete modeling process</p>
           <h2 data-en="Modular Mathematical Model" data-zh="分模块数学模型">Modular Mathematical Model</h2>
         </div>
+
         <div class="model-grid">
           <article>
-            <h3 data-en="Alphabet" data-zh="字母表">Alphabet</h3>
+            <h3 data-en="Sets and Indices" data-zh="集合与索引">Sets and Indices</h3>
             <ul class="compact-list">
-              <li><code>G = (V, E)</code> <span data-en="coupled PTIN graph" data-zh="耦合 PTIN 图">coupled PTIN graph</span></li>
-              <li><code>t, a</code> <span data-en="decision segment and candidate action" data-zh="决策时段与候选动作">decision segment and candidate action</span></li>
-              <li><code>g, k</code> <span data-en="mobile agent and restoration task" data-zh="移动执行体与恢复任务">mobile agent and restoration task</span></li>
-              <li><code>A_t, A_t^safe</code> <span data-en="source and executable action sets" data-zh="源候选动作集与可执行动作集">source and executable action sets</span></li>
-              <li><code>chi^P, chi^T, chi^C, chi^Z, chi^B, chi^U</code> <span data-en="power, route, packet, authority, memory and fleet gates" data-zh="电力、路径、通信包、权限、记忆和舰队门控">power, route, packet, authority, memory and fleet gates</span></li>
-              <li><code>kappa, Z_phi, S_pi</code> <span data-en="actionability margin, ranker score and policy score" data-zh="可执行性裕度、排序分数与策略分数">actionability margin, ranker score and policy score</span></li>
+              <li><code>G^P = (V^P, E^P)</code> <span data-en="distribution network" data-zh="配电网络">distribution network</span></li>
+              <li><code>G^T = (V^T, E^T)</code> <span data-en="transportation network" data-zh="交通网络">transportation network</span></li>
+              <li><code>G^C = (V^C, E^C)</code> <span data-en="communication network" data-zh="通信网络">communication network</span></li>
+              <li><code>m in M</code> <span data-en="mobile resource" data-zh="移动资源">mobile resource</span></li>
+              <li><code>k in K_t</code> <span data-en="released restoration task" data-zh="已释放恢复任务">released restoration task</span></li>
+              <li><code>t in T</code> <span data-en="closed-loop decision segment" data-zh="闭环决策时段">closed-loop decision segment</span></li>
             </ul>
           </article>
           <article>
-            <h3 data-en="PTIN State" data-zh="PTIN 状态">PTIN State</h3>
-            <p data-en="The state joins PDN energization, UTN travel time, CN packet feedback, mobile-resource energy and sparse weak-communication memory." data-zh="状态由配电网带电状态、交通路径时间、通信包反馈、移动资源能量和弱通信稀疏记忆共同组成。">
-              The state joins PDN energization, UTN travel time, CN packet feedback, mobile-resource energy and sparse weak-communication memory.
-            </p>
-            <code>s_t = {x_t^P, x_t^T, x_t^C, e_t^M, b_t}</code>
+            <h3 data-en="State and Decision Variables" data-zh="状态与决策变量">State and Decision Variables</h3>
+            <ul class="compact-list">
+              <li><code>z^P_{i,t}</code> <span data-en="PDN bus energization" data-zh="配电节点带电状态">PDN bus energization</span></li>
+              <li><code>x^P_{e,t}</code> <span data-en="feeder switching and restoration state" data-zh="馈线开关与恢复状态">feeder switching and restoration state</span></li>
+              <li><code>r_{m,t}</code> <span data-en="mobile-resource route" data-zh="移动资源路径">mobile-resource route</span></li>
+              <li><code>q_{c,t}, d_{c,t}</code> <span data-en="packet delivery and delay" data-zh="包交付率与时延">packet delivery and delay</span></li>
+              <li><code>u_{m,k,t}</code> <span data-en="assignment of resource m to task k" data-zh="资源到任务的分配">assignment of resource m to task k</span></li>
+              <li><code>a_t</code> <span data-en="selected restoration action" data-zh="被选择恢复动作">selected restoration action</span></li>
+            </ul>
           </article>
           <article>
-            <h3 data-en="EWMAC Shield" data-zh="EWMAC 屏蔽">EWMAC Shield</h3>
-            <p data-en="The shield rejects candidates before ranking. A high neural score cannot override failed packets, route conflict or negative control margin." data-zh="屏蔽层在排序前剔除不可执行候选动作。高神经网络分数不能覆盖通信包失效、路径冲突或控制裕度不足。">
-              The shield rejects candidates before ranking. A high neural score cannot override failed packets, route conflict or negative control margin.
+            <h3 data-en="Layered State" data-zh="分层状态">Layered State</h3>
+            <p
+              data-en="The closed-loop state contains energized buses and feeders, travel time, mobile-resource energy, relay coverage, packet feedback, controller status and the sparse memory of failed action attempts."
+              data-zh="闭环状态包含带电节点与馈线、行驶时间、移动资源能量、中继覆盖、通信包反馈、控制器状态以及失败动作的稀疏记忆。"
+            >
+              The closed-loop state contains energized buses and feeders, travel time, mobile-resource energy, relay coverage, packet feedback, controller status and the sparse memory of failed action attempts.
             </p>
-            <code>chi_t^EWMAC(a) = chi_t^P chi_t^T chi_t^C chi_t^Z chi_t^B chi_t^U</code>
+            <code>s_t = {x^P_t, z^P_t, r_t, e^M_t, q_t, d_t, b_t}</code>
           </article>
           <article>
-            <h3 data-en="Objective" data-zh="目标函数">Objective</h3>
-            <p data-en="The closed-loop objective rewards restored critical load and penalizes shed energy, time, unsafe attempts, communication delay and controller unavailability." data-zh="闭环目标奖励关键负荷恢复，同时惩罚弃供电量、时间、不可执行尝试、通信延迟和控制器不可用。">
-              The closed-loop objective rewards restored critical load and penalizes shed energy, time, unsafe attempts, communication delay and controller unavailability.
+            <h3 data-en="Actionability Shield" data-zh="可执行性屏蔽">Actionability Shield</h3>
+            <p
+              data-en="A candidate action is executable only when power feasibility, route feasibility, packet evidence, controller authority, memory state and fleet conflict gates are all satisfied."
+              data-zh="只有当电力可行性、路径可行性、通信包证据、控制权限、记忆状态和车队冲突门控同时满足时，候选动作才可执行。"
+            >
+              A candidate action is executable only when power feasibility, route feasibility, packet evidence, controller authority, memory state and fleet conflict gates are all satisfied.
             </p>
-            <code>max sum_t R_t = R_load - R_shed - R_time - R_comm - R_block</code>
+            <code>A_t^safe = {a in A_t | chi^P chi^T chi^C chi^Z chi^B chi^U = 1}</code>
           </article>
+        </div>
+
+        <div class="subsection-head">
+          <h3 data-en="Constraint Catalogue" data-zh="约束目录">Constraint Catalogue</h3>
+          <p
+            data-en="The table lists the constraints shown in the model so the advisor can see which physical and cyber conditions are considered."
+            data-zh="下表列出模型中显式考虑的约束，便于判断本文覆盖了哪些物理条件和信息条件。"
+          >
+            The table lists the constraints shown in the model so the advisor can see which physical and cyber conditions are considered.
+          </p>
+        </div>
+        <div class="table-wrap model-table-wrap">
+          <table class="constraint-table">
+            <thead>
+              <tr>
+                <th data-en="Block" data-zh="模块">Block</th>
+                <th data-en="Constraint" data-zh="约束">Constraint</th>
+                <th data-en="Meaning" data-zh="说明">Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-en="Power" data-zh="电力">Power</td>
+                <td><code>z^P_{i,t} in {0,1}</code></td>
+                <td data-en="A load bus is either energized or not energized." data-zh="负荷节点处于带电或未带电状态。">A load bus is either energized or not energized.</td>
+              </tr>
+              <tr>
+                <td data-en="Power" data-zh="电力">Power</td>
+                <td><code>0 <= p^{serve}_{i,t} <= p^d_i z^P_{i,t}</code></td>
+                <td data-en="Served load cannot exceed demand and must be zero when the bus is not energized." data-zh="服务负荷不能超过需求，且未带电节点不能供电。">Served load cannot exceed demand and must be zero when the bus is not energized.</td>
+              </tr>
+              <tr>
+                <td data-en="Power" data-zh="电力">Power</td>
+                <td><code>V_min <= V_{i,t} <= V_max</code></td>
+                <td data-en="Voltage must stay within the accepted operating range." data-zh="节点电压必须保持在允许运行范围内。">Voltage must stay within the accepted operating range.</td>
+              </tr>
+              <tr>
+                <td data-en="Power" data-zh="电力">Power</td>
+                <td><code>|S_{e,t}| <= S_bar_e x^P_{e,t}</code></td>
+                <td data-en="Line loading is limited by feeder capacity and switching state." data-zh="线路潮流受馈线容量和开关状态限制。">Line loading is limited by feeder capacity and switching state.</td>
+              </tr>
+              <tr>
+                <td data-en="Mobile power" data-zh="移动电源">Mobile power</td>
+                <td><code>0 <= p^M_{m,t} <= P_bar_m y_{m,t}</code></td>
+                <td data-en="A mobile resource can inject power only after it reaches an energized task site." data-zh="移动资源只有到达可接入任务点后才能注入功率。">A mobile resource can inject power only after it reaches an energized task site.</td>
+              </tr>
+              <tr>
+                <td data-en="Mobile power" data-zh="移动电源">Mobile power</td>
+                <td><code>E_{m,t+1} = E_{m,t} - e^{travel}_{m,t} - e^{serve}_{m,t}</code></td>
+                <td data-en="Battery energy accounts for travel and service consumption." data-zh="电池能量同时考虑行驶消耗和供电消耗。">Battery energy accounts for travel and service consumption.</td>
+              </tr>
+              <tr>
+                <td data-en="Traffic" data-zh="交通">Traffic</td>
+                <td><code>tau_{m,k,t} = tau^{SUMO}_{r_{m,k},t}</code></td>
+                <td data-en="Travel duration is obtained from the UTN route and SUMO or SUMO-derived TraCI feedback." data-zh="行驶时间由交通网络路径以及 SUMO 或 TraCI 反馈给出。">Travel duration is obtained from the UTN route and SUMO or SUMO-derived TraCI feedback.</td>
+              </tr>
+              <tr>
+                <td data-en="Traffic" data-zh="交通">Traffic</td>
+                <td><code>r_{m,t} in R^T_{m,t}</code></td>
+                <td data-en="The selected route must remain reachable under road damage and congestion." data-zh="所选路径必须在道路损坏和拥堵条件下仍可达。">The selected route must remain reachable under road damage and congestion.</td>
+              </tr>
+              <tr>
+                <td data-en="Communication" data-zh="通信">Communication</td>
+                <td><code>q_{c,t} >= q_min</code></td>
+                <td data-en="The control packet delivery rate must support the selected action." data-zh="控制链路包交付率必须支撑所选动作。">The control packet delivery rate must support the selected action.</td>
+              </tr>
+              <tr>
+                <td data-en="Communication" data-zh="通信">Communication</td>
+                <td><code>d_{c,t} <= d_max</code></td>
+                <td data-en="The communication delay must stay below the action deadline." data-zh="通信时延必须低于动作执行期限。">The communication delay must stay below the action deadline.</td>
+              </tr>
+              <tr>
+                <td data-en="Control" data-zh="控制">Control</td>
+                <td><code>z^{ctrl}_{i,t} = 1</code></td>
+                <td data-en="The relevant controller must be powered and reachable." data-zh="相关控制器必须带电并可通信。">The relevant controller must be powered and reachable.</td>
+              </tr>
+              <tr>
+                <td data-en="Fleet" data-zh="车队">Fleet</td>
+                <td><code>sum_k u_{m,k,t} <= 1</code></td>
+                <td data-en="Each mobile resource can serve at most one task in a decision segment." data-zh="每个移动资源在一个决策时段最多服务一个任务。">Each mobile resource can serve at most one task in a decision segment.</td>
+              </tr>
+              <tr>
+                <td data-en="Actionability" data-zh="可执行性">Actionability</td>
+                <td><code>chi^P chi^T chi^C chi^Z chi^B chi^U = 1</code></td>
+                <td data-en="A candidate passes only when all layer gates and memory gates are satisfied." data-zh="候选动作只有在所有层门控和记忆门控满足时才能通过。">A candidate passes only when all layer gates and memory gates are satisfied.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="objective-panel">
+          <h3 data-en="Total Objective" data-zh="总优化目标">Total Objective</h3>
+          <p
+            data-en="The objective maximizes critical load restoration and penalizes shed energy, terminal time, unsafe attempts, communication loss and controller unavailability."
+            data-zh="总目标最大化关键负荷恢复，并惩罚弃供电量、终止时间、不安全尝试、通信损失和控制器不可用。"
+          >
+            The objective maximizes critical load restoration and penalizes shed energy, terminal time, unsafe attempts, communication loss and controller unavailability.
+          </p>
+          <code>
+            max pi sum_t [ alpha_L L^{serve}_t - alpha_E E^{shed}_t - alpha_T Delta t_t - alpha_C(1 - q_t) - alpha_D max(d_t - d_max, 0) - alpha_B B_t + alpha_F F_t ]
+          </code>
         </div>
       </section>
 
@@ -129,17 +290,49 @@
           <p class="eyebrow" data-en="SAFE-GPINN details" data-zh="SAFE-GPINN 细节">SAFE-GPINN details</p>
           <h2 data-en="Algorithm Modules" data-zh="算法模块">Algorithm Modules</h2>
         </div>
-        <div class="algorithm-steps">
-          <div><span>1</span><p data-en="Generate restoration, relay, predeployment and waiting candidates from the source PTIN state." data-zh="从源 PTIN 状态生成恢复、中继、预部署和等待候选动作。">Generate restoration, relay, predeployment and waiting candidates from the source PTIN state.</p></div>
-          <div><span>2</span><p data-en="Apply EWMAC hard gates and record blocked reasons." data-zh="执行 EWMAC 硬门控并记录阻塞原因。">Apply EWMAC hard gates and record blocked reasons.</p></div>
-          <div><span>3</span><p data-en="Estimate physical residual margins with Graph-PINN features over admitted actions." data-zh="针对准入动作，用 Graph-PINN 特征估计物理残差裕度。">Estimate physical residual margins with Graph-PINN features over admitted actions.</p></div>
-          <div><span>4</span><p data-en="Rank admitted candidates using return score, pairwise order regularization and prefix feasibility." data-zh="结合回报分数、成对排序正则和前缀可行性对准入动作排序。">Rank admitted candidates using return score, pairwise order regularization and prefix feasibility.</p></div>
-          <div><span>5</span><p data-en="Use controlled relay predeployment and late reward gating to improve communication and terminal efficiency." data-zh="通过受控中继预部署和末段奖励门控改善通信质量与终止效率。">Use controlled relay predeployment and late reward gating to improve communication and terminal efficiency.</p></div>
+        <div class="algorithm-steps detailed-steps">
+          <div>
+            <span>1</span>
+            <p data-en="Candidate generation builds restore, relay, predeployment and waiting actions from released faults, mobile fleet locations and current PTIN state." data-zh="候选生成模块根据已释放故障、移动资源位置和当前 PTIN 状态生成恢复、中继、预部署和等待动作。">
+              Candidate generation builds restore, relay, predeployment and waiting actions from released faults, mobile fleet locations and current PTIN state.
+            </p>
+          </div>
+          <div>
+            <span>2</span>
+            <p data-en="EWMAC admission tests power, traffic, communication, controller, memory and fleet gates before any neural ranking is allowed." data-zh="EWMAC 准入模块在神经排序前检查电力、交通、通信、控制器、记忆和车队门控。">
+              EWMAC admission tests power, traffic, communication, controller, memory and fleet gates before any neural ranking is allowed.
+            </p>
+          </div>
+          <div>
+            <span>3</span>
+            <p data-en="Graph-PINN residual ranking estimates physical margin, load recovery gain and cross-layer action risk over the admitted set." data-zh="Graph-PINN 残差排序模块在准入动作集合上估计物理裕度、负荷恢复收益和跨层动作风险。">
+              Graph-PINN residual ranking estimates physical margin, load recovery gain and cross-layer action risk over the admitted set.
+            </p>
+          </div>
+          <div>
+            <span>4</span>
+            <p data-en="Pairwise order regularization and prefix feasibility keep high-score actions consistent with executable restoration order." data-zh="成对排序正则和前缀可行性约束使高分动作与可执行恢复顺序保持一致。">
+              Pairwise order regularization and prefix feasibility keep high-score actions consistent with executable restoration order.
+            </p>
+          </div>
+          <div>
+            <span>5</span>
+            <p data-en="Closed-loop execution updates PTIN state, records blocked reasons and triggers relay predeployment when communication is the bottleneck." data-zh="闭环执行模块更新 PTIN 状态，记录阻塞原因，并在通信成为瓶颈时触发中继预部署。">
+              Closed-loop execution updates PTIN state, records blocked reasons and triggers relay predeployment when communication is the bottleneck.
+            </p>
+          </div>
+        </div>
+        <div class="objective-panel algorithm-equation">
+          <h3 data-en="Action Selection Rule" data-zh="动作选择规则">Action Selection Rule</h3>
+          <code>a_t^* = argmax_{a in A_t^safe} [ S_pi(s_t, a) + lambda_R Z_phi(s_t, a) + lambda_K kappa_t(a) ]</code>
         </div>
         <figure class="wide-figure">
           <img src="assets/figures/actionability_fleet_gate.png" alt="Actionability and fleet gate evidence" />
-          <figcaption data-en="EWMAC contraction and fleet actionability evidence." data-zh="EWMAC 收缩与舰队可执行性证据。">
-            EWMAC contraction and fleet actionability evidence.
+          <figcaption
+            data-en="Evidence for EWMAC contraction, admitted action ratio and fleet actionability."
+            data-zh="EWMAC 收缩、动作准入比例和车队可执行性的证据。"
+          >
+            Evidence for EWMAC contraction, admitted action ratio and fleet actionability.
           </figcaption>
         </figure>
       </section>
@@ -150,9 +343,16 @@
           <h2 data-en="Main Results" data-zh="主实验结果">Main Results</h2>
         </div>
         <div class="table-tools">
-          <p data-en="Selected indicators from the manuscript physical table. Values are means over five seeds." data-zh="下表来自论文物理指标主表，数值为五个随机种子的均值。">
-            Selected indicators from the manuscript physical table. Values are means over five seeds.
+          <p
+            data-en="Main reading guide. Focus first on Terminal min and PDR. Terminal min shows restoration speed. PDR shows weak-communication reliability. Values in parentheses show the difference from SAFE-GPINN. Green means the compared method is worse than SAFE-GPINN. Red means it is better."
+            data-zh="主表阅读方式。优先看终止时间和 PDR 两列。终止时间反映恢复速度，PDR 反映弱通信可靠性。括号中为相对 SAFE-GPINN 的差距。绿色表示对比方法差于 SAFE-GPINN，红色表示对比方法优于 SAFE-GPINN。"
+          >
+            Main reading guide. Focus first on Terminal min and PDR. Terminal min shows restoration speed. PDR shows weak-communication reliability. Values in parentheses show the difference from SAFE-GPINN. Green means the compared method is worse than SAFE-GPINN. Red means it is better.
           </p>
+          <div class="metric-pills" aria-label="Highlighted result metrics">
+            <span data-en="Primary metric 1: Terminal min down" data-zh="重点指标 1：终止时间越低越好">Primary metric 1: Terminal min down</span>
+            <span data-en="Primary metric 2: PDR up" data-zh="重点指标 2：PDR 越高越好">Primary metric 2: PDR up</span>
+          </div>
         </div>
         <div class="table-wrap">
           <table id="main-table"></table>
@@ -161,61 +361,60 @@
         <div class="results-grid">
           <article>
             <h3 data-en="Module Ablation" data-zh="模块消融">Module Ablation</h3>
-            <p data-en="Controlled predeployment is the largest current contributor. Removing it reduces reward from 415.23 to 147.41 and raises shed energy to 832.45 kWh." data-zh="受控预部署是当前贡献最大的模块。去除该模块后，奖励从 415.23 降至 147.41，弃供电量升至 832.45 kWh。">
+            <p
+              data-en="Controlled predeployment is the largest current contributor. Removing it reduces reward from 415.23 to 147.41 and raises shed energy to 832.45 kWh."
+              data-zh="受控预部署是当前贡献最大的模块。去除该模块后，奖励从 415.23 降至 147.41，弃供电量升至 832.45 kWh。"
+            >
               Controlled predeployment is the largest current contributor. Removing it reduces reward from 415.23 to 147.41 and raises shed energy to 832.45 kWh.
             </p>
             <div class="mini-table-wrap"><table id="ablation-table"></table></div>
           </article>
           <article>
             <h3 data-en="Travel Stress" data-zh="交通压力">Travel Stress</h3>
-            <p data-en="SAFE-GPINN preserves full restoration under 1.85 travel-time stress, while RH-MPC fails one released feeder fault." data-zh="在 1.85 倍交通时间压力下，SAFE-GPINN 仍保持全恢复，而 RH-MPC 未恢复一个释放故障边。">
-              SAFE-GPINN preserves full restoration under 1.85 travel-time stress, while RH-MPC fails one released feeder fault.
+            <p
+              data-en="SAFE-GPINN preserves full restoration under 1.85 travel-time stress, while RH-MPC misses one released feeder fault."
+              data-zh="在 1.85 倍交通时间压力下，SAFE-GPINN 保持全恢复，而 RH-MPC 未恢复一个已释放故障边。"
+            >
+              SAFE-GPINN preserves full restoration under 1.85 travel-time stress, while RH-MPC misses one released feeder fault.
             </p>
             <div class="mini-table-wrap"><table id="robustness-table"></table></div>
           </article>
         </div>
         <figure class="wide-figure">
           <img src="assets/figures/component_ablation.png" alt="Component module ablation figure" />
-          <figcaption data-en="Component and module ablation evidence from the manuscript result set." data-zh="论文结果集中的组件与模块消融证据。">
-            Component and module ablation evidence from the manuscript result set.
+          <figcaption
+            data-en="Component ablation evidence from the manuscript result set."
+            data-zh="论文结果集中的组件消融证据。"
+          >
+            Component ablation evidence from the manuscript result set.
           </figcaption>
         </figure>
       </section>
 
-      <section id="run" class="section">
+      <section id="software" class="section">
         <div class="section-heading">
-          <p class="eyebrow" data-en="Online software boundary" data-zh="在线软件边界">Online software boundary</p>
-          <h2 data-en="Replay Online, Run Full Simulation Locally" data-zh="网页在线回放，本地运行完整仿真">Replay Online, Run Full Simulation Locally</h2>
+          <p class="eyebrow" data-en="Software evidence" data-zh="软件证据">Software evidence</p>
+          <h2 data-en="Restoration Replay Recorded from PTINPixelViewer" data-zh="由 PTINPixelViewer 录制的恢复回放">Restoration Replay Recorded from PTINPixelViewer</h2>
         </div>
-        <div class="info-grid">
-          <article>
-            <h3 data-en="Online Replay" data-zh="在线回放">Online Replay</h3>
-            <p
-              data-en="This page is a static browser viewer. It can display the restoration replay GIF, result figures and CSV-backed tables, but it does not start Python, SUMO, ns-3 or pandapower on GitHub Pages."
-              data-zh="本页面是静态浏览器展示页。它可以显示恢复过程 GIF、结果图和基于 CSV 的表格，但不会在 GitHub Pages 上启动 Python、SUMO、ns-3 或 pandapower。"
+        <div class="software-grid">
+          <figure>
+            <img src="assets/restoration_replay.gif" alt="SAFE-GPINN software replay GIF" />
+            <figcaption
+              data-en="GIF recorded by running dist/PTINPixelViewer/PTINPixelViewer.exe and loading the official disaster-restoration timeline through the local loopback viewer."
+              data-zh="该 GIF 由 dist/PTINPixelViewer/PTINPixelViewer.exe 运行后，通过本地回环 viewer 加载官方灾后恢复时间线录制。"
             >
-              This page is a static browser viewer. It can display the restoration replay GIF, result figures and CSV-backed tables, but it does not start Python, SUMO, ns-3 or pandapower on GitHub Pages.
-            </p>
-          </article>
-          <article>
-            <h3 data-en="Public Code" data-zh="公开代码">Public Code</h3>
-            <p
-              data-en="The public repository contains the closed-loop PTIN environment, SAFE-GPINN training and evaluation utilities, reconstructed scenarios, ns-3 packet replay evidence and focused tests."
-              data-zh="公开仓库包含闭环 PTIN 环境、SAFE-GPINN 训练与评估工具、重构场景、ns-3 通信包回放证据和必要测试。"
+              GIF recorded by running dist/PTINPixelViewer/PTINPixelViewer.exe and loading the official disaster-restoration timeline through the local loopback viewer.
+            </figcaption>
+          </figure>
+          <figure>
+            <img src="assets/figures/restoration_process_panel.png" alt="Spatiotemporal restoration process panel" />
+            <figcaption
+              data-en="Spatiotemporal process panel used in the manuscript. It complements the software replay by showing order, schedule, load recovery, communication response and fault state."
+              data-zh="论文中的时空恢复过程图。它与软件回放互补，展示恢复顺序、动作排程、负荷恢复、通信响应和故障状态。"
             >
-              The public repository contains the closed-loop PTIN environment, SAFE-GPINN training and evaluation utilities, reconstructed scenarios, ns-3 packet replay evidence and focused tests.
-            </p>
-            <a class="text-link" href="https://github.com/xuka0000/safe-gpinn-ptin-code" target="_blank" rel="noopener" data-en="Open GitHub repository" data-zh="打开 GitHub 仓库">Open GitHub repository</a>
-          </article>
-          <article>
-            <h3 data-en="Full Local Run" data-zh="完整本地运行">Full Local Run</h3>
-            <p
-              data-en="A full physical run needs Python, PyTorch, SUMO with TraCI, ns-3 and optional pandapower. Each result should state the adapter mode, configuration, seed count and generated result path."
-              data-zh="完整物理仿真需要 Python、PyTorch、SUMO 与 TraCI、ns-3 以及可选的 pandapower。每组结果都应说明适配器模式、配置、随机种子数量和结果路径。"
-            >
-              A full physical run needs Python, PyTorch, SUMO with TraCI, ns-3 and optional pandapower. Each result should state the adapter mode, configuration, seed count and generated result path.
-            </p>
-          </article>
+              Spatiotemporal process panel used in the manuscript. It complements the software replay by showing order, schedule, load recovery, communication response and fault state.
+            </figcaption>
+          </figure>
         </div>
       </section>
 
@@ -224,74 +423,81 @@
           <p class="eyebrow" data-en="Data and simulator design" data-zh="数据与仿真设计">Data and simulator design</p>
           <h2 data-en="Layered Data Support for PTIN Experiments" data-zh="面向 PTIN 实验的分层数据支撑">Layered Data Support for PTIN Experiments</h2>
         </div>
-        <div class="model-grid">
+        <div class="info-grid">
           <article>
             <h3 data-en="Reconstructed PTIN Case" data-zh="重构 PTIN 算例">Reconstructed PTIN Case</h3>
             <p
-              data-en="The case is stored as auditable tables for PDN, UTN and CN nodes and edges, cross-layer dependencies, failure-release steps and mobile fleet resources."
-              data-zh="算例以可审计表格保存，包括配电、交通和通信网络的节点与边、跨层依赖、故障释放步骤和移动资源配置。"
+              data-en="PDN, UTN and CN nodes and edges are stored as auditable tables. The case also records cross-layer dependencies, failure-release steps and mobile fleet resources."
+              data-zh="配电、交通和通信网络的节点与边均以可审计表格保存。算例还记录跨层依赖、故障释放步骤和移动资源配置。"
             >
-              The case is stored as auditable tables for PDN, UTN and CN nodes and edges, cross-layer dependencies, failure-release steps and mobile fleet resources.
+              PDN, UTN and CN nodes and edges are stored as auditable tables. The case also records cross-layer dependencies, failure-release steps and mobile fleet resources.
             </p>
           </article>
           <article>
-            <h3 data-en="Power Data" data-zh="电力数据">Power Data</h3>
+            <h3 data-en="Traffic and SUMO" data-zh="交通与 SUMO">Traffic and SUMO</h3>
             <p
-              data-en="PDN bus and line tables build the balanced AC check. The closed loop records served load, shed energy, voltage, line loading and mobile dispatch."
-              data-zh="配电节点和线路表用于构建平衡 AC 校核。闭环过程记录服务负荷、弃供电量、电压、线路负载率和移动电源出力。"
+              data-en="The UTN graph provides the route substrate. SUMO or SUMO-derived TraCI feedback supplies travel time, speed, waiting time and occupancy, which determine action duration and traffic feasibility."
+              data-zh="交通网络图提供移动资源路径基础。SUMO 或由 SUMO 产生的 TraCI 反馈给出行程时间、速度、等待时间和占有率，并进一步决定动作时长和交通可行性。"
             >
-              PDN bus and line tables build the balanced AC check. The closed loop records served load, shed energy, voltage, line loading and mobile dispatch.
+              The UTN graph provides the route substrate. SUMO or SUMO-derived TraCI feedback supplies travel time, speed, waiting time and occupancy, which determine action duration and traffic feasibility.
             </p>
           </article>
           <article>
-            <h3 data-en="Traffic Data and SUMO" data-zh="交通数据与 SUMO">Traffic Data and SUMO</h3>
+            <h3 data-en="Communication and ns-3" data-zh="通信与 ns-3">Communication and ns-3</h3>
             <p
-              data-en="The UTN graph provides the route substrate. SUMO or SUMO-derived TraCI feedback supplies travel time, speed, waiting time and occupancy, which affect action duration and traffic feasibility."
-              data-zh="交通网络图提供移动资源的路线基础。SUMO 或由 SUMO 产生的 TraCI 反馈提供行程时间、速度、等待时间和占有率，并影响动作时长与交通可行性。"
+              data-en="CN topology and packet replay are converted into packet delivery rate, delay and powered-controller rate. UAV relay and dual-channel actions are evaluated through these quantities."
+              data-zh="通信拓扑和通信包回放被转化为包交付率、时延和带电控制器比例。无人机中继和双通道动作通过这些指标进行评价。"
             >
-              The UTN graph provides the route substrate. SUMO or SUMO-derived TraCI feedback supplies travel time, speed, waiting time and occupancy, which affect action duration and traffic feasibility.
-            </p>
-          </article>
-          <article>
-            <h3 data-en="Communication Data and ns-3" data-zh="通信数据与 ns-3">Communication Data and ns-3</h3>
-            <p
-              data-en="CN topology and packet evidence are converted into packet delivery rate, mean delay and controller availability. UAV relay and dual-channel actions are evaluated through these quantities."
-              data-zh="通信拓扑和包级证据被转换为包交付率、平均时延和控制器可用性。UAV 中继和双通道动作通过这些量进行评估。"
-            >
-              CN topology and packet evidence are converted into packet delivery rate, mean delay and controller availability. UAV relay and dual-channel actions are evaluated through these quantities.
+              CN topology and packet replay are converted into packet delivery rate, delay and powered-controller rate. UAV relay and dual-channel actions are evaluated through these quantities.
             </p>
           </article>
         </div>
       </section>
 
-      <section id="software" class="section">
+      <section id="run" class="section">
         <div class="section-heading">
-          <p class="eyebrow" data-en="Software evidence" data-zh="软件证据">Software evidence</p>
-          <h2 data-en="Restoration Replay Interface" data-zh="恢复过程回放界面">Restoration Replay Interface</h2>
+          <p class="eyebrow" data-en="Online boundary" data-zh="在线边界">Online boundary</p>
+          <h2 data-en="Replay Online, Run Full Simulation Locally" data-zh="网页在线展示，本地运行完整仿真">Replay Online, Run Full Simulation Locally</h2>
         </div>
-        <div class="software-grid">
-          <figure>
-            <img src="assets/restoration_replay.gif" alt="SAFE-GPINN software replay GIF" />
-            <figcaption data-en="GIF generated from the representative closed-loop trace." data-zh="GIF 由代表性闭环轨迹生成。">
-              GIF generated from the representative closed-loop trace.
-            </figcaption>
-          </figure>
-          <figure>
-            <img src="assets/figures/restoration_process_panel.png" alt="Spatiotemporal restoration process panel" />
-            <figcaption data-en="Spatiotemporal process panel used in the manuscript." data-zh="论文中使用的时空恢复过程图。">
-              Spatiotemporal process panel used in the manuscript.
-            </figcaption>
-          </figure>
+        <div class="info-grid">
+          <article>
+            <h3 data-en="Online Page" data-zh="在线页面">Online Page</h3>
+            <p
+              data-en="GitHub Pages can display the result tables, figures and software replay. It cannot start Python, SUMO, ns-3 or pandapower by itself."
+              data-zh="GitHub Pages 可以展示结果表格、图像和软件回放，但不能自行启动 Python、SUMO、ns-3 或 pandapower。"
+            >
+              GitHub Pages can display the result tables, figures and software replay. It cannot start Python, SUMO, ns-3 or pandapower by itself.
+            </p>
+          </article>
+          <article>
+            <h3 data-en="Public Code" data-zh="公开代码">Public Code</h3>
+            <p
+              data-en="The public repository contains the closed-loop PTIN environment, SAFE-GPINN evaluation utilities, reconstructed scenarios, ns-3 evidence and focused tests."
+              data-zh="公开仓库包含闭环 PTIN 环境、SAFE-GPINN 评估工具、重构算例、ns-3 证据和必要测试。"
+            >
+              The public repository contains the closed-loop PTIN environment, SAFE-GPINN evaluation utilities, reconstructed scenarios, ns-3 evidence and focused tests.
+            </p>
+            <a class="text-link" href="https://github.com/xuka0000/safe-gpinn-ptin-code" target="_blank" rel="noopener">https://github.com/xuka0000/safe-gpinn-ptin-code</a>
+          </article>
+          <article>
+            <h3 data-en="Local Executable" data-zh="本地可执行软件">Local Executable</h3>
+            <p
+              data-en="The Windows viewer is launched from dist/PTINPixelViewer/PTINPixelViewer.exe. It opens a local loopback interface and can replay the restoration timeline without publishing the simulator backend online."
+              data-zh="Windows 查看器从 dist/PTINPixelViewer/PTINPixelViewer.exe 启动。它打开本地回环界面，并可在不把仿真后端部署到公网的情况下回放恢复时间线。"
+            >
+              The Windows viewer is launched from dist/PTINPixelViewer/PTINPixelViewer.exe. It opens a local loopback interface and can replay the restoration timeline without publishing the simulator backend online.
+            </p>
+          </article>
         </div>
       </section>
 
       <section id="evidence" class="section narrow">
         <h2 data-en="Evidence Boundary" data-zh="证据边界">Evidence Boundary</h2>
         <p
-          data-en="This page reports a reconstructed PTIN simulation study with balanced AC checks, SUMO/TraCI traffic evidence and ns-3 packet replay or step feedback. GitHub Pages is used as an online replay and result viewer. It does not claim hardware RF deployment, full city-scale online cosimulation or unbalanced feeder field validation."
-          data-zh="本页面展示的是重建 PTIN 仿真研究，包含平衡 AC 校核、SUMO/TraCI 交通证据和 ns-3 通信包回放或步进反馈。GitHub Pages 仅作为在线回放和结果查看页。页面不声称硬件 RF 部署、完整城市级在线联合仿真或三相不平衡馈线现场验证。"
+          data-en="This page reports a reconstructed PTIN simulation study with balanced AC checks, SUMO or TraCI traffic evidence and ns-3 packet replay or step feedback. It does not claim hardware RF deployment, city-scale online co-simulation or unbalanced feeder field validation."
+          data-zh="本页面报告的是重构 PTIN 仿真研究，包含平衡 AC 校核、SUMO 或 TraCI 交通证据以及 ns-3 通信包回放或步进反馈。页面不声称硬件射频部署、城市级在线联合仿真或三相不平衡馈线现场验证。"
         >
-          This page reports a reconstructed PTIN simulation study with balanced AC checks, SUMO/TraCI traffic evidence and ns-3 packet replay or step feedback. GitHub Pages is used as an online replay and result viewer. It does not claim hardware RF deployment, full city-scale online cosimulation or unbalanced feeder field validation.
+          This page reports a reconstructed PTIN simulation study with balanced AC checks, SUMO or TraCI traffic evidence and ns-3 packet replay or step feedback. It does not claim hardware RF deployment, city-scale online co-simulation or unbalanced feeder field validation.
         </p>
       </section>
     </main>
