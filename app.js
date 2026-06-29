@@ -143,6 +143,7 @@ function metricCell(row, safeRow, key, options = {}) {
     formatter = number,
     deltaFormatter = signedNumber,
     higherBetter = true,
+    directional = true,
   } = options;
   const value = numeric(row[key]);
   const safeValue = numeric(safeRow?.[key]);
@@ -153,11 +154,48 @@ function metricCell(row, safeRow, key, options = {}) {
 
   const diff = value - safeValue;
   const epsilon = 1e-9;
-  const better = higherBetter ? value > safeValue + epsilon : value < safeValue - epsilon;
-  const worse = higherBetter ? value < safeValue - epsilon : value > safeValue + epsilon;
+  const better = directional && (higherBetter ? value > safeValue + epsilon : value < safeValue - epsilon);
+  const worse = directional && (higherBetter ? value < safeValue - epsilon : value > safeValue + epsilon);
   const deltaClass = better ? "delta-better" : worse ? "delta-worse" : "delta-neutral";
   const delta = escapeHtml(deltaFormatter(diff));
   return `<span class="main-value">${main}</span><span class="delta ${deltaClass}">(${delta})</span>`;
+}
+
+function percentNumber(value, digits = 2) {
+  const n = numeric(value);
+  if (n === null) return value ?? "";
+  return (n * 100).toFixed(digits);
+}
+
+function formatMeanStd(row, key, stdKey, formatter = number, digits = 2) {
+  const mean = numeric(row[key]);
+  const std = numeric(row[stdKey]);
+  if (mean === null) return escapeHtml(row[key] ?? "");
+  const meanText = formatter(mean, digits);
+  const stdText = std === null ? "" : ` ± ${formatter(std, digits)}`;
+  return `${escapeHtml(meanText)}${escapeHtml(stdText)}`;
+}
+
+function metricMeanStdCell(row, safeRow, key, stdKey, options = {}) {
+  const {
+    formatter = number,
+    digits = 2,
+    deltaFormatter = signedNumber,
+    higherBetter = true,
+    directional = true,
+  } = options;
+  const main = formatMeanStd(row, key, stdKey, formatter, digits);
+  const value = numeric(row[key]);
+  const safeValue = numeric(safeRow?.[key]);
+  if (row.displayMethod === "SAFE-GPINN" || value === null || safeValue === null) {
+    return `<span class="main-value">${main}</span>`;
+  }
+  const diff = value - safeValue;
+  const epsilon = 1e-9;
+  const better = directional && (higherBetter ? value > safeValue + epsilon : value < safeValue - epsilon);
+  const worse = directional && (higherBetter ? value < safeValue - epsilon : value > safeValue + epsilon);
+  const deltaClass = better ? "delta-better" : worse ? "delta-worse" : "delta-neutral";
+  return `<span class="main-value">${main}</span><span class="delta ${deltaClass}">(${escapeHtml(deltaFormatter(diff))})</span>`;
 }
 
 function renderTable(table, headers, rows, rowClass = () => "") {
@@ -166,7 +204,8 @@ function renderTable(table, headers, rows, rowClass = () => "") {
   const tr = document.createElement("tr");
   headers.forEach((header) => {
     const th = document.createElement("th");
-    th.textContent = header.label;
+    if (header.htmlLabel) th.innerHTML = header.label;
+    else th.textContent = header.label;
     if (header.keyMetric) th.classList.add("key-metric");
     tr.appendChild(th);
   });
@@ -194,15 +233,18 @@ function renderMainTable() {
   const l = labels[state.lang];
   const methods = [
     "SAFE-GPINN",
-    "RH-MPC",
+    "MADDPG",
+    "MAPPO",
+    "QMIX",
+    "VDN",
+    "HAPPO/HATRPO",
+    "MAT",
+    "CQL",
+    "TD3",
+    "IQL",
     "Diffusion planner",
     "Two-stage MILP",
-    "IQL",
-    "TD3",
-    "CQL",
-    "QMIX",
-    "MAPPO",
-    "MADDPG",
+    "RH-MPC",
     "Greedy",
     "Load-gain",
   ];
@@ -215,89 +257,91 @@ function renderMainTable() {
         methods.findIndex((m) => b.displayMethod.includes(m))
     );
   const safe = mainSafeRow(rows);
+  const table = document.querySelector("#main-table");
+  table.innerHTML = "";
+  const tbody = document.createElement("tbody");
+  const sections = [
+    {
+      title: state.lang === "zh" ? "电力层" : "Electrical",
+      headers: [
+        { label: "R ↑", key: "total_reward", std: "total_reward_std", formatter: number, digits: 2, higherBetter: true },
+        { label: "FR ↑", key: "full_restoration_rate", std: "full_restoration_rate_std", formatter: number, digits: 2, higherBetter: true },
+        { label: "Failed ↓", key: "remaining_failed_edges", std: "remaining_failed_edges_std", formatter: number, digits: 1, higherBetter: false },
+        { label: "Served (%) ↑", key: "mean_served_ratio", std: "mean_served_ratio_std", formatter: percentNumber, digits: 2, deltaFormatter: (v) => signedPercentPoint(v, 1), higherBetter: true },
+        { label: "<i>E</i><sub>shed</sub> (kWh) ↓", key: "shed_energy_kwh", std: "shed_energy_kwh_std", formatter: number, digits: 2, higherBetter: false, htmlLabel: true },
+        { label: "Edges ↑", key: "restored_edges", std: "restored_edges_std", formatter: number, digits: 1, higherBetter: true },
+      ],
+    },
+    {
+      title: state.lang === "zh" ? "交通层" : "Transportation",
+      headers: [
+        { label: "<i>T</i><sub>end</sub> (min) ↓", key: "terminal_time_min", std: "terminal_time_min_std", formatter: number, digits: 2, higherBetter: false, keyMetric: true, htmlLabel: true },
+        { label: "Roads", key: "mean_target_traffic_edge_count", std: "mean_target_traffic_edge_count_std", formatter: number, digits: 1, directional: false },
+        { label: "Travel (s) ↓", key: "mean_target_travel_time_s", std: "mean_target_travel_time_s_std", formatter: number, digits: 2, higherBetter: false },
+        { label: "Robust (s) ↓", key: "mean_target_robust_travel_time_s", std: "mean_target_robust_travel_time_s_std", formatter: number, digits: 2, higherBetter: false },
+        { label: "Action (min) ↓", key: "mean_action_duration_min", std: "mean_action_duration_min_std", formatter: number, digits: 2, higherBetter: false },
+        { label: "Feas. (%) ↑", key: "traffic_feasible_rate", std: "traffic_feasible_rate_std", formatter: percentNumber, digits: 1, deltaFormatter: (v) => signedPercentPoint(v, 1), higherBetter: true },
+      ],
+    },
+    {
+      title: state.lang === "zh" ? "通信层" : "Communication",
+      headers: [
+        { label: "PDR (%) ↑", key: "mean_packet_delivery_rate", std: "mean_packet_delivery_rate_std", formatter: percentNumber, digits: 2, deltaFormatter: (v) => signedPercentPoint(v, 1), higherBetter: true, keyMetric: true },
+        { label: "Delay (ms) ↓", key: "mean_delay_ms", std: "mean_delay_ms_std", formatter: number, digits: 2, higherBetter: false },
+        { label: "Ctrl. (%) ↑", key: "control_available_rate", std: "control_available_rate_std", formatter: percentNumber, digits: 1, deltaFormatter: (v) => signedPercentPoint(v, 1), higherBetter: true },
+        { label: "Blocked ↓", key: "blocked_attempts", std: "blocked_attempts_std", formatter: number, digits: 1, higherBetter: false },
+        { label: "Relay (%)", key: "relay_action_rate", std: "relay_action_rate_std", formatter: percentNumber, digits: 1, deltaFormatter: (v) => signedPercentPoint(v, 1), directional: false },
+        { label: "Powered ctrl. (%) ↑", key: "powered_controller_rate", std: "powered_controller_rate_std", formatter: percentNumber, digits: 1, deltaFormatter: (v) => signedPercentPoint(v, 1), higherBetter: true },
+      ],
+    },
+  ];
 
-  renderTable(
-    document.querySelector("#main-table"),
-    [
-      { label: l.method, value: (r) => r.displayMethod },
-      { label: l.class, value: (r) => r.category },
-      { label: l.reward, html: true, value: (r) => metricCell(r, safe, "total_reward", { higherBetter: true }) },
-      {
-        label: l.fr,
-        html: true,
-        value: (r) =>
-          metricCell(r, safe, "full_restoration_rate", {
-            formatter: (v) => percent(v, 0),
-            deltaFormatter: (v) => signedPercentPoint(v, 0),
-            higherBetter: true,
-          }),
-      },
-      {
-        label: l.terminal,
-        html: true,
-        keyMetric: true,
-        value: (r) =>
-          metricCell(r, safe, "terminal_time_min", {
-            formatter: (v) => number(v, 2),
-            deltaFormatter: (v) => signedNumber(v, 2),
-            higherBetter: false,
-          }),
-      },
-      {
-        label: l.served,
-        html: true,
-        value: (r) =>
-          metricCell(r, safe, "mean_served_ratio", {
-            formatter: (v) => percent(v, 1),
-            deltaFormatter: (v) => signedPercentPoint(v, 1),
-            higherBetter: true,
-          }),
-      },
-      {
-        label: l.shed,
-        html: true,
-        value: (r) =>
-          metricCell(r, safe, "shed_energy_kwh", {
-            formatter: (v) => number(v, 2),
-            deltaFormatter: (v) => signedNumber(v, 2),
-            higherBetter: false,
-          }),
-      },
-      {
-        label: l.pdr,
-        html: true,
-        keyMetric: true,
-        value: (r) =>
-          metricCell(r, safe, "mean_packet_delivery_rate", {
-            formatter: (v) => percent(v, 1),
-            deltaFormatter: (v) => signedPercentPoint(v, 1),
-            higherBetter: true,
-          }),
-      },
-      {
-        label: l.delay,
-        html: true,
-        value: (r) =>
-          metricCell(r, safe, "mean_delay_ms", {
-            formatter: (v) => number(v, 2),
-            deltaFormatter: (v) => signedNumber(v, 2),
-            higherBetter: false,
-          }),
-      },
-      {
-        label: l.powered,
-        html: true,
-        value: (r) =>
-          metricCell(r, safe, "powered_controller_rate", {
-            formatter: (v) => percent(v, 1),
-            deltaFormatter: (v) => signedPercentPoint(v, 1),
-            higherBetter: true,
-          }),
-      },
-    ],
-    rows,
-    (row) => (row.displayMethod === "SAFE-GPINN" ? "highlight" : "")
-  );
+  sections.forEach((section) => {
+    const sectionRow = document.createElement("tr");
+    sectionRow.className = "main-section-row";
+    sectionRow.innerHTML = `<th colspan="${section.headers.length + 2}">${escapeHtml(section.title)}</th>`;
+    tbody.appendChild(sectionRow);
+
+    const headerRow = document.createElement("tr");
+    headerRow.className = "main-subheader-row";
+    const methodTh = document.createElement("th");
+    methodTh.textContent = l.method;
+    const classTh = document.createElement("th");
+    classTh.textContent = l.class;
+    headerRow.append(methodTh, classTh);
+    section.headers.forEach((header) => {
+      const th = document.createElement("th");
+      if (header.htmlLabel) th.innerHTML = header.label;
+      else th.textContent = header.label;
+      if (header.keyMetric) th.classList.add("key-metric");
+      headerRow.appendChild(th);
+    });
+    tbody.appendChild(headerRow);
+
+    rows.forEach((row) => {
+      const tr = document.createElement("tr");
+      if (row.displayMethod === "SAFE-GPINN") tr.classList.add("highlight");
+      const methodTd = document.createElement("td");
+      methodTd.textContent = row.displayMethod;
+      const classTd = document.createElement("td");
+      classTd.textContent = row.category;
+      tr.append(methodTd, classTd);
+      section.headers.forEach((header) => {
+        const td = document.createElement("td");
+        if (header.keyMetric) td.classList.add("key-metric");
+        td.innerHTML = metricMeanStdCell(row, safe, header.key, header.std, {
+          formatter: header.formatter,
+          digits: header.digits,
+          deltaFormatter: header.deltaFormatter || signedNumber,
+          higherBetter: header.higherBetter,
+          directional: header.directional !== false,
+        });
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  });
+  table.appendChild(tbody);
 }
 
 function renderAblationTable() {
