@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SAFE-GPINN PTIN Project Page</title>
+    <meta
+      name="description"
+      content="Project page for actionability-shielded fleet dispatch in weak-communication power-transportation-information networks."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top">SAFE-GPINN</a>
+      <nav>
+        <a href="#model" data-en="Model" data-zh="模型">Model</a>
+        <a href="#algorithm" data-en="Algorithm" data-zh="算法">Algorithm</a>
+        <a href="#results" data-en="Results" data-zh="结果">Results</a>
+        <a href="#software" data-en="Software" data-zh="软件">Software</a>
+      </nav>
+      <div class="lang-switch" aria-label="Language switch">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="zh">中文</button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <p class="eyebrow" data-en="Weak-communication embodied PTIN restoration" data-zh="弱通信具身 PTIN 灾后恢复">
+          Weak-communication embodied PTIN restoration
+        </p>
+        <h1
+          data-en="Actionability-Shielded Fleet Dispatch for Microgrid Formation in Weak-Communication Power-Transportation-Information Networks"
+          data-zh="SAFE-GPINN：弱通信 PTIN 微电网恢复"
+        >
+          Actionability-Shielded Fleet Dispatch for Microgrid Formation in Weak-Communication Power-Transportation-Information Networks
+        </h1>
+        <p
+          class="hero-summary"
+          data-en="SAFE-GPINN turns network-feasible restoration candidates into executable actions by combining EWMAC hard gates, Graph-PINN residual ranking, relay predeployment and closed-loop replay evidence."
+          data-zh="SAFE-GPINN 将网络可行的恢复候选动作进一步转化为可执行动作，结合 EWMAC 硬门控、Graph-PINN 残差排序、UAV 中继预部署和闭环回放证据。"
+        >
+          SAFE-GPINN turns network-feasible restoration candidates into executable actions by combining EWMAC hard gates, Graph-PINN residual ranking, relay predeployment and closed-loop replay evidence.
+        </p>
+        <div class="hero-actions">
+          <a href="#results" class="button primary" data-en="View Results" data-zh="查看结果">View Results</a>
+          <a href="#software" class="button secondary" data-en="Watch Replay" data-zh="观看回放">Watch Replay</a>
+        </div>
+        <div class="hero-metrics">
+          <div>
+            <strong>415.23</strong>
+            <span data-en="Reward" data-zh="奖励">Reward</span>
+          </div>
+          <div>
+            <strong>1.00</strong>
+            <span data-en="FR" data-zh="全恢复率">FR</span>
+          </div>
+          <div>
+            <strong>113.94</strong>
+            <span data-en="Terminal min" data-zh="终止时间 min">Terminal min</span>
+          </div>
+          <div>
+            <strong>95.05%</strong>
+            <span data-en="PDR" data-zh="包交付率">PDR</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="teaser">
+        <img src="assets/restoration_replay.gif" alt="SAFE-GPINN restoration replay animation" />
+      </section>
+
+      <section id="abstract" class="section narrow">
+        <h2 data-en="Abstract" data-zh="摘要">Abstract</h2>
+        <p
+          data-en="Post-disaster microgrid formation increasingly depends on mobile energy storage, electric vehicles and UAV-assisted communication. Weak communication creates an execution gap because a feasible network action can still lack valid packets, route evidence, localization confidence or control authority. SAFE-GPINN addresses this gap by applying EWMAC admission before neural ranking. In five-seed closed-loop experiments, it restores all eight released feeder faults, reaches reward 415.23, reduces shed energy relative to RH-MPC by 103.14 kWh and improves delay by 4.45 ms under the reconstructed PTIN case."
+          data-zh="灾后微电网形成越来越依赖移动储能、电动汽车和 UAV 辅助通信。弱通信会带来执行缺口，因为网络层面可行的动作仍可能缺少有效任务包、路径证据、定位可信度或控制权限。SAFE-GPINN 在神经排序之前先执行 EWMAC 准入判定。在五种随机种子的闭环实验中，该方法恢复全部八个释放故障边，相比 RH-MPC 将弃供电量降低 103.14 kWh，并将通信延迟降低 4.45 ms。"
+        >
+          Post-disaster microgrid formation increasingly depends on mobile energy storage, electric vehicles and UAV-assisted communication. Weak communication creates an execution gap because a feasible network action can still lack valid packets, route evidence, localization confidence or control authority. SAFE-GPINN addresses this gap by applying EWMAC admission before neural ranking. In five-seed closed-loop experiments, it restores all eight released feeder faults, reaches reward 415.23, reduces shed energy relative to RH-MPC by 103.14 kWh and improves delay by 4.45 ms under the reconstructed PTIN case.
+        </p>
+      </section>
+
+      <section id="model" class="section">
+        <div class="section-heading">
+          <p class="eyebrow" data-en="Complete modeling process" data-zh="完整建模过程">Complete modeling process</p>
+          <h2 data-en="Modular Mathematical Model" data-zh="分模块数学模型">Modular Mathematical Model</h2>
+        </div>
+        <div class="model-grid">
+          <article>
+            <h3 data-en="Alphabet" data-zh="字母表">Alphabet</h3>
+            <ul class="compact-list">
+              <li><code>G = (V, E)</code> <span data-en="coupled PTIN graph" data-zh="耦合 PTIN 图">coupled PTIN graph</span></li>
+              <li><code>t, a</code> <span data-en="decision segment and candidate action" data-zh="决策时段与候选动作">decision segment and candidate action</span></li>
+              <li><code>g, k</code> <span data-en="mobile agent and restoration task" data-zh="移动执行体与恢复任务">mobile agent and restoration task</span></li>
+              <li><code>A_t, A_t^safe</code> <span data-en="source and executable action sets" data-zh="源候选动作集与可执行动作集">source and executable action sets</span></li>
+              <li><code>chi^P, chi^T, chi^C, chi^Z, chi^B, chi^U</code> <span data-en="power, route, packet, authority, memory and fleet gates" data-zh="电力、路径、通信包、权限、记忆和舰队门控">power, route, packet, authority, memory and fleet gates</span></li>
+              <li><code>kappa, Z_phi, S_pi</code> <span data-en="actionability margin, ranker score and policy score" data-zh="可执行性裕度、排序分数与策略分数">actionability margin, ranker score and policy score</span></li>
+            </ul>
+          </article>
+          <article>
+            <h3 data-en="PTIN State" data-zh="PTIN 状态">PTIN State</h3>
+            <p data-en="The state joins PDN energization, UTN travel time, CN packet feedback, mobile-resource energy and sparse weak-communication memory." data-zh="状态由配电网带电状态、交通路径时间、通信包反馈、移动资源能量和弱通信稀疏记忆共同组成。">
+              The state joins PDN energization, UTN travel time, CN packet feedback, mobile-resource energy and sparse weak-communication memory.
+            </p>
+            <code>s_t = {x_t^P, x_t^T, x_t^C, e_t^M, b_t}</code>
+          </article>
+          <article>
+            <h3 data-en="EWMAC Shield" data-zh="EWMAC 屏蔽">EWMAC Shield</h3>
+            <p data-en="The shield rejects candidates before ranking. A high neural score cannot override failed packets, route conflict or negative control margin." data-zh="屏蔽层在排序前剔除不可执行候选动作。高神经网络分数不能覆盖通信包失效、路径冲突或控制裕度不足。">
+              The shield rejects candidates before ranking. A high neural score cannot override failed packets, route conflict or negative control margin.
+            </p>
+            <code>chi_t^EWMAC(a) = chi_t^P chi_t^T chi_t^C chi_t^Z chi_t^B chi_t^U</code>
+          </article>
+          <article>
+            <h3 data-en="Objective" data-zh="目标函数">Objective</h3>
+            <p data-en="The closed-loop objective rewards restored critical load and penalizes shed energy, time, unsafe attempts, communication delay and controller unavailability." data-zh="闭环目标奖励关键负荷恢复，同时惩罚弃供电量、时间、不可执行尝试、通信延迟和控制器不可用。">
+              The closed-loop objective rewards restored critical load and penalizes shed energy, time, unsafe attempts, communication delay and controller unavailability.
+            </p>
+            <code>max sum_t R_t = R_load - R_shed - R_time - R_comm - R_block</code>
+          </article>
+        </div>
+      </section>
+
+      <section id="algorithm" class="section">
+        <div class="section-heading">
+          <p class="eyebrow" data-en="SAFE-GPINN details" data-zh="SAFE-GPINN 细节">SAFE-GPINN details</p>
+          <h2 data-en="Algorithm Modules" data-zh="算法模块">Algorithm Modules</h2>
+        </div>
+        <div class="algorithm-steps">
+          <div><span>1</span><p data-en="Generate restoration, relay, predeployment and waiting candidates from the source PTIN state." data-zh="从源 PTIN 状态生成恢复、中继、预部署和等待候选动作。">Generate restoration, relay, predeployment and waiting candidates from the source PTIN state.</p></div>
+          <div><span>2</span><p data-en="Apply EWMAC hard gates and record blocked reasons." data-zh="执行 EWMAC 硬门控并记录阻塞原因。">Apply EWMAC hard gates and record blocked reasons.</p></div>
+          <div><span>3</span><p data-en="Estimate physical residual margins with Graph-PINN features over admitted actions." data-zh="针对准入动作，用 Graph-PINN 特征估计物理残差裕度。">Estimate physical residual margins with Graph-PINN features over admitted actions.</p></div>
+          <div><span>4</span><p data-en="Rank admitted candidates using return score, pairwise order regularization and prefix feasibility." data-zh="结合回报分数、成对排序正则和前缀可行性对准入动作排序。">Rank admitted candidates using return score, pairwise order regularization and prefix feasibility.</p></div>
+          <div><span>5</span><p data-en="Use controlled relay predeployment and late reward gating to improve communication and terminal efficiency." data-zh="通过受控中继预部署和末段奖励门控改善通信质量与终止效率。">Use controlled relay predeployment and late reward gating to improve communication and terminal efficiency.</p></div>
+        </div>
+        <figure class="wide-figure">
+          <img src="assets/figures/actionability_fleet_gate.png" alt="Actionability and fleet gate evidence" />
+          <figcaption data-en="EWMAC contraction and fleet actionability evidence." data-zh="EWMAC 收缩与舰队可执行性证据。">
+            EWMAC contraction and fleet actionability evidence.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section id="results" class="section">
+        <div class="section-heading">
+          <p class="eyebrow" data-en="Five-seed closed-loop evidence" data-zh="五随机种子闭环证据">Five-seed closed-loop evidence</p>
+          <h2 data-en="Main Results" data-zh="主实验结果">Main Results</h2>
+        </div>
+        <div class="table-tools">
+          <p data-en="Selected indicators from the manuscript physical table. Values are means over five seeds." data-zh="下表来自论文物理指标主表，数值为五个随机种子的均值。">
+            Selected indicators from the manuscript physical table. Values are means over five seeds.
+          </p>
+        </div>
+        <div class="table-wrap">
+          <table id="main-table"></table>
+        </div>
+
+        <div class="results-grid">
+          <article>
+            <h3 data-en="Module Ablation" data-zh="模块消融">Module Ablation</h3>
+            <p data-en="Controlled predeployment is the largest current contributor. Removing it reduces reward from 415.23 to 147.41 and raises shed energy to 832.45 kWh." data-zh="受控预部署是当前贡献最大的模块。去除该模块后，奖励从 415.23 降至 147.41，弃供电量升至 832.45 kWh。">
+              Controlled predeployment is the largest current contributor. Removing it reduces reward from 415.23 to 147.41 and raises shed energy to 832.45 kWh.
+            </p>
+            <div class="mini-table-wrap"><table id="ablation-table"></table></div>
+          </article>
+          <article>
+            <h3 data-en="Travel Stress" data-zh="交通压力">Travel Stress</h3>
+            <p data-en="SAFE-GPINN preserves full restoration under 1.85 travel-time stress, while RH-MPC fails one released feeder fault." data-zh="在 1.85 倍交通时间压力下，SAFE-GPINN 仍保持全恢复，而 RH-MPC 未恢复一个释放故障边。">
+              SAFE-GPINN preserves full restoration under 1.85 travel-time stress, while RH-MPC fails one released feeder fault.
+            </p>
+            <div class="mini-table-wrap"><table id="robustness-table"></table></div>
+          </article>
+        </div>
+        <figure class="wide-figure">
+          <img src="assets/figures/component_ablation.png" alt="Component module ablation figure" />
+          <figcaption data-en="Component and module ablation evidence from the manuscript result set." data-zh="论文结果集中的组件与模块消融证据。">
+            Component and module ablation evidence from the manuscript result set.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section id="software" class="section">
+        <div class="section-heading">
+          <p class="eyebrow" data-en="Software evidence" data-zh="软件证据">Software evidence</p>
+          <h2 data-en="Restoration Replay Interface" data-zh="恢复过程回放界面">Restoration Replay Interface</h2>
+        </div>
+        <div class="software-grid">
+          <figure>
+            <img src="assets/restoration_replay.gif" alt="SAFE-GPINN software replay GIF" />
+            <figcaption data-en="GIF generated from the representative closed-loop trace." data-zh="GIF 由代表性闭环轨迹生成。">
+              GIF generated from the representative closed-loop trace.
+            </figcaption>
+          </figure>
+          <figure>
+            <img src="assets/figures/restoration_process_panel.png" alt="Spatiotemporal restoration process panel" />
+            <figcaption data-en="Spatiotemporal process panel used in the manuscript." data-zh="论文中使用的时空恢复过程图。">
+              Spatiotemporal process panel used in the manuscript.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="evidence" class="section narrow">
+        <h2 data-en="Evidence Boundary" data-zh="证据边界">Evidence Boundary</h2>
+        <p
+          data-en="This page reports a reconstructed PTIN simulation study with balanced AC checks, SUMO/TraCI traffic evidence and ns-3 packet replay or step feedback. It does not claim hardware RF deployment, full city-scale online cosimulation or unbalanced feeder field validation."
+          data-zh="本页面展示的是重建 PTIN 仿真研究，包含平衡 AC 校核、SUMO/TraCI 交通证据和 ns-3 通信包回放或步进反馈。页面不声称硬件 RF 部署、完整城市级在线联合仿真或三相不平衡馈线现场验证。"
+        >
+          This page reports a reconstructed PTIN simulation study with balanced AC checks, SUMO/TraCI traffic evidence and ns-3 packet replay or step feedback. It does not claim hardware RF deployment, full city-scale online cosimulation or unbalanced feeder field validation.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <span>SAFE-GPINN PTIN project page</span>
+      <span data-en="Evidence files are included in assets/data." data-zh="证据数据文件位于 assets/data。">Evidence files are included in assets/data.</span>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
