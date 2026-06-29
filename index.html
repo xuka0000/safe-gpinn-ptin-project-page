@@ -17,7 +17,8 @@
         <a href="#model" data-en="Model" data-zh="模型">Model</a>
         <a href="#algorithm" data-en="Algorithm" data-zh="算法">Algorithm</a>
         <a href="#results" data-en="Results" data-zh="结果">Results</a>
-        <a href="#software" data-en="Software" data-zh="软件">Software</a>
+        <a href="#run" data-en="Run" data-zh="运行">Run</a>
+        <a href="#data" data-en="Data" data-zh="数据">Data</a>
       </nav>
       <div class="lang-switch" aria-label="Language switch">
         <button class="lang-btn active" data-lang="en">EN</button>
@@ -46,6 +47,7 @@
         <div class="hero-actions">
           <a href="#results" class="button primary" data-en="View Results" data-zh="查看结果">View Results</a>
           <a href="#software" class="button secondary" data-en="Watch Replay" data-zh="观看回放">Watch Replay</a>
+          <a href="https://github.com/xuka0000/safe-gpinn-ptin-code" target="_blank" rel="noopener" class="button secondary" data-en="Code" data-zh="代码">Code</a>
         </div>
         <div class="hero-metrics">
           <div>
@@ -180,6 +182,88 @@
         </figure>
       </section>
 
+      <section id="run" class="section">
+        <div class="section-heading">
+          <p class="eyebrow" data-en="Online software boundary" data-zh="在线软件边界">Online software boundary</p>
+          <h2 data-en="Replay Online, Run Full Simulation Locally" data-zh="网页在线回放，本地运行完整仿真">Replay Online, Run Full Simulation Locally</h2>
+        </div>
+        <div class="info-grid">
+          <article>
+            <h3 data-en="Online Replay" data-zh="在线回放">Online Replay</h3>
+            <p
+              data-en="This page is a static browser viewer. It can display the restoration replay GIF, result figures and CSV-backed tables, but it does not start Python, SUMO, ns-3 or pandapower on GitHub Pages."
+              data-zh="本页面是静态浏览器展示页。它可以显示恢复过程 GIF、结果图和基于 CSV 的表格，但不会在 GitHub Pages 上启动 Python、SUMO、ns-3 或 pandapower。"
+            >
+              This page is a static browser viewer. It can display the restoration replay GIF, result figures and CSV-backed tables, but it does not start Python, SUMO, ns-3 or pandapower on GitHub Pages.
+            </p>
+          </article>
+          <article>
+            <h3 data-en="Public Code" data-zh="公开代码">Public Code</h3>
+            <p
+              data-en="The public repository contains the closed-loop PTIN environment, SAFE-GPINN training and evaluation utilities, reconstructed scenarios, ns-3 packet replay evidence and focused tests."
+              data-zh="公开仓库包含闭环 PTIN 环境、SAFE-GPINN 训练与评估工具、重构场景、ns-3 通信包回放证据和必要测试。"
+            >
+              The public repository contains the closed-loop PTIN environment, SAFE-GPINN training and evaluation utilities, reconstructed scenarios, ns-3 packet replay evidence and focused tests.
+            </p>
+            <a class="text-link" href="https://github.com/xuka0000/safe-gpinn-ptin-code" target="_blank" rel="noopener" data-en="Open GitHub repository" data-zh="打开 GitHub 仓库">Open GitHub repository</a>
+          </article>
+          <article>
+            <h3 data-en="Full Local Run" data-zh="完整本地运行">Full Local Run</h3>
+            <p
+              data-en="A full physical run needs Python, PyTorch, SUMO with TraCI, ns-3 and optional pandapower. Each result should state the adapter mode, configuration, seed count and generated result path."
+              data-zh="完整物理仿真需要 Python、PyTorch、SUMO 与 TraCI、ns-3 以及可选的 pandapower。每组结果都应说明适配器模式、配置、随机种子数量和结果路径。"
+            >
+              A full physical run needs Python, PyTorch, SUMO with TraCI, ns-3 and optional pandapower. Each result should state the adapter mode, configuration, seed count and generated result path.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="data" class="section">
+        <div class="section-heading">
+          <p class="eyebrow" data-en="Data and simulator design" data-zh="数据与仿真设计">Data and simulator design</p>
+          <h2 data-en="Layered Data Support for PTIN Experiments" data-zh="面向 PTIN 实验的分层数据支撑">Layered Data Support for PTIN Experiments</h2>
+        </div>
+        <div class="model-grid">
+          <article>
+            <h3 data-en="Reconstructed PTIN Case" data-zh="重构 PTIN 算例">Reconstructed PTIN Case</h3>
+            <p
+              data-en="The case is stored as auditable tables for PDN, UTN and CN nodes and edges, cross-layer dependencies, failure-release steps and mobile fleet resources."
+              data-zh="算例以可审计表格保存，包括配电、交通和通信网络的节点与边、跨层依赖、故障释放步骤和移动资源配置。"
+            >
+              The case is stored as auditable tables for PDN, UTN and CN nodes and edges, cross-layer dependencies, failure-release steps and mobile fleet resources.
+            </p>
+          </article>
+          <article>
+            <h3 data-en="Power Data" data-zh="电力数据">Power Data</h3>
+            <p
+              data-en="PDN bus and line tables build the balanced AC check. The closed loop records served load, shed energy, voltage, line loading and mobile dispatch."
+              data-zh="配电节点和线路表用于构建平衡 AC 校核。闭环过程记录服务负荷、弃供电量、电压、线路负载率和移动电源出力。"
+            >
+              PDN bus and line tables build the balanced AC check. The closed loop records served load, shed energy, voltage, line loading and mobile dispatch.
+            </p>
+          </article>
+          <article>
+            <h3 data-en="Traffic Data and SUMO" data-zh="交通数据与 SUMO">Traffic Data and SUMO</h3>
+            <p
+              data-en="The UTN graph provides the route substrate. SUMO or SUMO-derived TraCI feedback supplies travel time, speed, waiting time and occupancy, which affect action duration and traffic feasibility."
+              data-zh="交通网络图提供移动资源的路线基础。SUMO 或由 SUMO 产生的 TraCI 反馈提供行程时间、速度、等待时间和占有率，并影响动作时长与交通可行性。"
+            >
+              The UTN graph provides the route substrate. SUMO or SUMO-derived TraCI feedback supplies travel time, speed, waiting time and occupancy, which affect action duration and traffic feasibility.
+            </p>
+          </article>
+          <article>
+            <h3 data-en="Communication Data and ns-3" data-zh="通信数据与 ns-3">Communication Data and ns-3</h3>
+            <p
+              data-en="CN topology and packet evidence are converted into packet delivery rate, mean delay and controller availability. UAV relay and dual-channel actions are evaluated through these quantities."
+              data-zh="通信拓扑和包级证据被转换为包交付率、平均时延和控制器可用性。UAV 中继和双通道动作通过这些量进行评估。"
+            >
+              CN topology and packet evidence are converted into packet delivery rate, mean delay and controller availability. UAV relay and dual-channel actions are evaluated through these quantities.
+            </p>
+          </article>
+        </div>
+      </section>
+
       <section id="software" class="section">
         <div class="section-heading">
           <p class="eyebrow" data-en="Software evidence" data-zh="软件证据">Software evidence</p>
@@ -204,17 +288,17 @@
       <section id="evidence" class="section narrow">
         <h2 data-en="Evidence Boundary" data-zh="证据边界">Evidence Boundary</h2>
         <p
-          data-en="This page reports a reconstructed PTIN simulation study with balanced AC checks, SUMO/TraCI traffic evidence and ns-3 packet replay or step feedback. It does not claim hardware RF deployment, full city-scale online cosimulation or unbalanced feeder field validation."
-          data-zh="本页面展示的是重建 PTIN 仿真研究，包含平衡 AC 校核、SUMO/TraCI 交通证据和 ns-3 通信包回放或步进反馈。页面不声称硬件 RF 部署、完整城市级在线联合仿真或三相不平衡馈线现场验证。"
+          data-en="This page reports a reconstructed PTIN simulation study with balanced AC checks, SUMO/TraCI traffic evidence and ns-3 packet replay or step feedback. GitHub Pages is used as an online replay and result viewer. It does not claim hardware RF deployment, full city-scale online cosimulation or unbalanced feeder field validation."
+          data-zh="本页面展示的是重建 PTIN 仿真研究，包含平衡 AC 校核、SUMO/TraCI 交通证据和 ns-3 通信包回放或步进反馈。GitHub Pages 仅作为在线回放和结果查看页。页面不声称硬件 RF 部署、完整城市级在线联合仿真或三相不平衡馈线现场验证。"
         >
-          This page reports a reconstructed PTIN simulation study with balanced AC checks, SUMO/TraCI traffic evidence and ns-3 packet replay or step feedback. It does not claim hardware RF deployment, full city-scale online cosimulation or unbalanced feeder field validation.
+          This page reports a reconstructed PTIN simulation study with balanced AC checks, SUMO/TraCI traffic evidence and ns-3 packet replay or step feedback. GitHub Pages is used as an online replay and result viewer. It does not claim hardware RF deployment, full city-scale online cosimulation or unbalanced feeder field validation.
         </p>
       </section>
     </main>
 
     <footer>
       <span>SAFE-GPINN PTIN project page</span>
-      <span data-en="Evidence files are included in assets/data." data-zh="证据数据文件位于 assets/data。">Evidence files are included in assets/data.</span>
+      <a href="https://github.com/xuka0000/safe-gpinn-ptin-code" target="_blank" rel="noopener" data-en="Public code repository" data-zh="公开代码仓库">Public code repository</a>
     </footer>
 
     <script src="app.js"></script>
