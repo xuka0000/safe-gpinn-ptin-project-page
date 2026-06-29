@@ -8,6 +8,13 @@
       name="description"
       content="Project page for SAFE-GPINN actionability-shielded restoration in weak-communication power-transportation-information networks."
     />
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [["\\(", "\\)"], ["$", "$"]], displayMath: [["\\[", "\\]"]] },
+        svg: { fontCache: "global" }
+      };
+    </script>
+    <script defer src="assets/vendor/mathjax/tex-svg.js"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -84,7 +91,7 @@
       </section>
 
       <section class="teaser" aria-label="Software restoration replay">
-        <img src="assets/restoration_replay.gif" alt="SAFE-GPINN restoration replay recorded from PTINPixelViewer" />
+        <img src="assets/restoration_replay.gif" alt="SAFE-GPINN restoration replay generated from PTINPixelViewer states" />
       </section>
 
       <section id="abstract" class="section narrow">
@@ -140,132 +147,264 @@
 
         <div class="model-grid">
           <article>
-            <h3 data-en="Sets and Indices" data-zh="集合与索引">Sets and Indices</h3>
+            <h3 data-en="Network and Task Sets" data-zh="网络与任务集合">Network and Task Sets</h3>
             <ul class="compact-list">
-              <li><code>G^P = (V^P, E^P)</code> <span data-en="distribution network" data-zh="配电网络">distribution network</span></li>
-              <li><code>G^T = (V^T, E^T)</code> <span data-en="transportation network" data-zh="交通网络">transportation network</span></li>
-              <li><code>G^C = (V^C, E^C)</code> <span data-en="communication network" data-zh="通信网络">communication network</span></li>
-              <li><code>m in M</code> <span data-en="mobile resource" data-zh="移动资源">mobile resource</span></li>
-              <li><code>k in K_t</code> <span data-en="released restoration task" data-zh="已释放恢复任务">released restoration task</span></li>
-              <li><code>t in T</code> <span data-en="closed-loop decision segment" data-zh="闭环决策时段">closed-loop decision segment</span></li>
+              <li>\(\mathcal G^P=(\mathcal V^P,\mathcal E^P)\) <span data-en="distribution network" data-zh="配电网络">distribution network</span></li>
+              <li>\(\mathcal G^T=(\mathcal V^T,\mathcal E^T)\) <span data-en="transportation network" data-zh="交通网络">transportation network</span></li>
+              <li>\(\mathcal G^C=(\mathcal V^C,\mathcal E^C)\) <span data-en="communication network" data-zh="通信网络">communication network</span></li>
+              <li>\(\mathcal F_t\) <span data-en="released and unrestored feeder faults" data-zh="已释放且未恢复的馈线故障">released and unrestored feeder faults</span></li>
+              <li>\(\mathcal M,\mathcal U,\mathcal B_t\) <span data-en="MESS, UAV and V2G resource sets" data-zh="移动储能、无人机和 V2G 资源集合">MESS, UAV and V2G resource sets</span></li>
+              <li>\(\mathcal D\) <span data-en="cross-layer dependency set" data-zh="跨层依赖集合">cross-layer dependency set</span></li>
             </ul>
           </article>
           <article>
             <h3 data-en="State and Decision Variables" data-zh="状态与决策变量">State and Decision Variables</h3>
             <ul class="compact-list">
-              <li><code>z^P_{i,t}</code> <span data-en="PDN bus energization" data-zh="配电节点带电状态">PDN bus energization</span></li>
-              <li><code>x^P_{e,t}</code> <span data-en="feeder switching and restoration state" data-zh="馈线开关与恢复状态">feeder switching and restoration state</span></li>
-              <li><code>r_{m,t}</code> <span data-en="mobile-resource route" data-zh="移动资源路径">mobile-resource route</span></li>
-              <li><code>q_{c,t}, d_{c,t}</code> <span data-en="packet delivery and delay" data-zh="包交付率与时延">packet delivery and delay</span></li>
-              <li><code>u_{m,k,t}</code> <span data-en="assignment of resource m to task k" data-zh="资源到任务的分配">assignment of resource m to task k</span></li>
-              <li><code>a_t</code> <span data-en="selected restoration action" data-zh="被选择恢复动作">selected restoration action</span></li>
+              <li>\(x^P_{e,t}\in\{0,1\}\) <span data-en="feeder closed or restored state" data-zh="馈线闭合或恢复状态">feeder closed or restored state</span></li>
+              <li>\(z^P_{i,t}\in\{0,1\}\) <span data-en="PDN bus energization state" data-zh="配电节点带电状态">PDN bus energization state</span></li>
+              <li>\(u_{m,k,t}\in\{0,1\}\) <span data-en="mobile resource assigned to task" data-zh="移动资源到任务的分配">mobile resource assigned to task</span></li>
+              <li>\(q_{k,t},d_{k,t}\) <span data-en="packet delivery rate and delay" data-zh="包交付率和通信时延">packet delivery rate and delay</span></li>
+              <li>\(E^M_t,E^V_t\) <span data-en="MESS and V2G remaining energy" data-zh="移动储能和 V2G 剩余能量">MESS and V2G remaining energy</span></li>
+              <li>\(a_t\in\mathcal A_t\) <span data-en="selected closed-loop action" data-zh="闭环选择动作">selected closed-loop action</span></li>
             </ul>
           </article>
           <article>
-            <h3 data-en="Layered State" data-zh="分层状态">Layered State</h3>
+            <h3 data-en="Closed-Loop State" data-zh="闭环状态">Closed-Loop State</h3>
             <p
-              data-en="The closed-loop state contains energized buses and feeders, travel time, mobile-resource energy, relay coverage, packet feedback, controller status and the sparse memory of failed action attempts."
-              data-zh="闭环状态包含带电节点与馈线、行驶时间、移动资源能量、中继覆盖、通信包反馈、控制器状态以及失败动作的稀疏记忆。"
+              data-en="The state records restored feeders, released latent faults, predeployed UAV targets, remaining resource energy, traffic feedback, packet feedback and AC feasibility outputs."
+              data-zh="状态记录已恢复馈线、已释放和潜在故障、预部署无人机目标、资源剩余能量、交通反馈、通信包反馈和 AC 可行性输出。"
             >
-              The closed-loop state contains energized buses and feeders, travel time, mobile-resource energy, relay coverage, packet feedback, controller status and the sparse memory of failed action attempts.
+              The state records restored feeders, released latent faults, predeployed UAV targets, remaining resource energy, traffic feedback, packet feedback and AC feasibility outputs.
             </p>
-            <code>s_t = {x^P_t, z^P_t, r_t, e^M_t, q_t, d_t, b_t}</code>
+            <div class="formula-block">\[
+              s_t=\left(\mathcal R_t,\mathcal F_t,\mathcal U^{pre}_t,E^M_t,E^V_t,\tau^T_t,q_t,d_t,\Omega^P_t\right)
+            \]</div>
           </article>
           <article>
-            <h3 data-en="Actionability Shield" data-zh="可执行性屏蔽">Actionability Shield</h3>
+            <h3 data-en="Candidate Action Set" data-zh="候选动作集合">Candidate Action Set</h3>
             <p
-              data-en="A candidate action is executable only when power feasibility, route feasibility, packet evidence, controller authority, memory state and fleet conflict gates are all satisfied."
-              data-zh="只有当电力可行性、路径可行性、通信包证据、控制权限、记忆状态和车队冲突门控同时满足时，候选动作才可执行。"
+              data-en="The implemented closed loop considers direct restoration, UAV relay restoration, dual-channel restoration, UAV predeployment and waiting."
+              data-zh="当前闭环实现考虑直接恢复、无人机中继恢复、双通道恢复、无人机预部署和等待动作。"
             >
-              A candidate action is executable only when power feasibility, route feasibility, packet evidence, controller authority, memory state and fleet conflict gates are all satisfied.
+              The implemented closed loop considers direct restoration, UAV relay restoration, dual-channel restoration, UAV predeployment and waiting.
             </p>
-            <code>A_t^safe = {a in A_t | chi^P chi^T chi^C chi^Z chi^B chi^U = 1}</code>
+            <div class="formula-block">\[
+              \mathcal A_t=\mathcal A_t^{dir}\cup\mathcal A_t^{relay}\cup\mathcal A_t^{dual}\cup\mathcal A_t^{pre}\cup\{a_t^{wait}\}
+            \]</div>
           </article>
         </div>
 
-        <div class="subsection-head">
-          <h3 data-en="Constraint Catalogue" data-zh="约束目录">Constraint Catalogue</h3>
+        <div class="subsection-head symbol-head">
+          <h3 data-en="Mathematical Alphabet" data-zh="数学符号字母表">Mathematical Alphabet</h3>
           <p
-            data-en="The table lists the constraints shown in the model so the advisor can see which physical and cyber conditions are considered."
-            data-zh="下表列出模型中显式考虑的约束，便于判断本文覆盖了哪些物理条件和信息条件。"
+            data-en="The page uses one symbol system for the PTIN object, closed-loop state, constraints and evaluation metrics."
+            data-zh="本页对 PTIN 对象、闭环状态、约束和评价指标使用同一套符号。"
           >
-            The table lists the constraints shown in the model so the advisor can see which physical and cyber conditions are considered.
+            The page uses one symbol system for the PTIN object, closed-loop state, constraints and evaluation metrics.
           </p>
         </div>
         <div class="table-wrap model-table-wrap">
-          <table class="constraint-table">
+          <table class="symbol-table math-table">
             <thead>
               <tr>
-                <th data-en="Block" data-zh="模块">Block</th>
-                <th data-en="Constraint" data-zh="约束">Constraint</th>
+                <th data-en="Group" data-zh="类别">Group</th>
+                <th data-en="Symbols" data-zh="符号">Symbols</th>
                 <th data-en="Meaning" data-zh="说明">Meaning</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td data-en="Power" data-zh="电力">Power</td>
-                <td><code>z^P_{i,t} in {0,1}</code></td>
-                <td data-en="A load bus is either energized or not energized." data-zh="负荷节点处于带电或未带电状态。">A load bus is either energized or not energized.</td>
+                <td data-en="Indices" data-zh="索引">Indices</td>
+                <td>\(i,j\in\mathcal V^P,\ e,k\in\mathcal E^P,\ r\in\mathcal E^T,\ c\in\mathcal V^C,\ m\in\mathcal M,\ u\in\mathcal U,\ t\in\mathcal T\)</td>
+                <td data-en="Power buses and feeders, road edges, communication nodes, mobile resources, UAVs and closed-loop steps." data-zh="配电节点和馈线、道路边、通信节点、移动资源、无人机和闭环步。">Power buses and feeders, road edges, communication nodes, mobile resources, UAVs and closed-loop steps.</td>
               </tr>
               <tr>
-                <td data-en="Power" data-zh="电力">Power</td>
-                <td><code>0 <= p^{serve}_{i,t} <= p^d_i z^P_{i,t}</code></td>
-                <td data-en="Served load cannot exceed demand and must be zero when the bus is not energized." data-zh="服务负荷不能超过需求，且未带电节点不能供电。">Served load cannot exceed demand and must be zero when the bus is not energized.</td>
+                <td data-en="Networks" data-zh="网络">Networks</td>
+                <td>\(\mathcal G^P,\mathcal G^T,\mathcal G^C,\mathcal D,\partial k\)</td>
+                <td data-en="PDN, UTN, CN, cross-layer dependencies and endpoints of the target feeder." data-zh="配电网、交通网、通信网、跨层依赖关系和目标馈线端点。">PDN, UTN, CN, cross-layer dependencies and endpoints of the target feeder.</td>
               </tr>
               <tr>
-                <td data-en="Power" data-zh="电力">Power</td>
-                <td><code>V_min <= V_{i,t} <= V_max</code></td>
-                <td data-en="Voltage must stay within the accepted operating range." data-zh="节点电压必须保持在允许运行范围内。">Voltage must stay within the accepted operating range.</td>
+                <td data-en="Fault state" data-zh="故障状态">Fault state</td>
+                <td>\(\mathcal F_t,\mathcal F^{lat}_t,\mathcal R_t,\rho_e,k_t,x^P_{e,t},z^P_{i,t}\)</td>
+                <td data-en="Released faults, latent faults, restored feeders, release step, feeder state and bus energization state." data-zh="已释放故障、潜在故障、已恢复馈线、释放步、馈线状态和节点带电状态。">Released faults, latent faults, restored feeders, release step, feeder state and bus energization state.</td>
               </tr>
               <tr>
-                <td data-en="Power" data-zh="电力">Power</td>
-                <td><code>|S_{e,t}| <= S_bar_e x^P_{e,t}</code></td>
-                <td data-en="Line loading is limited by feeder capacity and switching state." data-zh="线路潮流受馈线容量和开关状态限制。">Line loading is limited by feeder capacity and switching state.</td>
+                <td data-en="Action and gate" data-zh="动作与门控">Action and gate</td>
+                <td>\(a_t,\mathcal A_t,\mathcal A_t^{\mathrm{safe}},y_{a,t},b_{a,t},\chi^P,\chi^T,\chi^C,\chi^Z,\chi^E,\chi^U\)</td>
+                <td data-en="Candidate actions, executable actions, applied-action indicator, blocked-action indicator and feasibility gates." data-zh="候选动作、可执行动作、动作执行指示、动作阻塞指示和可行性门控。">Candidate actions, executable actions, applied-action indicator, blocked-action indicator and feasibility gates.</td>
               </tr>
               <tr>
-                <td data-en="Mobile power" data-zh="移动电源">Mobile power</td>
-                <td><code>0 <= p^M_{m,t} <= P_bar_m y_{m,t}</code></td>
-                <td data-en="A mobile resource can inject power only after it reaches an energized task site." data-zh="移动资源只有到达可接入任务点后才能注入功率。">A mobile resource can inject power only after it reaches an energized task site.</td>
+                <td data-en="Power and resources" data-zh="电力与资源">Power and resources</td>
+                <td>\(p^d_i,p^{srv}_{i,t},e^{shed}_t,V_{i,t},\ell_{e,t},E^M_t,E^V_t,p^M_t,p^V_t\)</td>
+                <td data-en="Demand, served load, shed energy, AC feasibility outputs and remaining mobile support energy." data-zh="负荷需求、服务负荷、弃供电量、AC 可行性输出和移动支撑剩余能量。">Demand, served load, shed energy, AC feasibility outputs and remaining mobile support energy.</td>
               </tr>
               <tr>
-                <td data-en="Mobile power" data-zh="移动电源">Mobile power</td>
-                <td><code>E_{m,t+1} = E_{m,t} - e^{travel}_{m,t} - e^{serve}_{m,t}</code></td>
-                <td data-en="Battery energy accounts for travel and service consumption." data-zh="电池能量同时考虑行驶消耗和供电消耗。">Battery energy accounts for travel and service consumption.</td>
+                <td data-en="Traffic and communication" data-zh="交通与通信">Traffic and communication</td>
+                <td>\(\mathcal E^T(k),\tau^{SUMO}_{r,t},\tau^T_{k,t},\tilde\tau^T_{k,t},q_{k,t},d_{k,t},\mathcal C_k,\mathcal V^{C,on}_t\)</td>
+                <td data-en="Target roads, measured and robust travel time, packet delivery, delay, controller set and powered controllers." data-zh="目标道路、测量和鲁棒行程时间、包交付率、时延、控制器集合和带电控制器。">Target roads, measured and robust travel time, packet delivery, delay, controller set and powered controllers.</td>
               </tr>
               <tr>
-                <td data-en="Traffic" data-zh="交通">Traffic</td>
-                <td><code>tau_{m,k,t} = tau^{SUMO}_{r_{m,k},t}</code></td>
-                <td data-en="Travel duration is obtained from the UTN route and SUMO or SUMO-derived TraCI feedback." data-zh="行驶时间由交通网络路径以及 SUMO 或 TraCI 反馈给出。">Travel duration is obtained from the UTN route and SUMO or SUMO-derived TraCI feedback.</td>
+                <td data-en="Objective" data-zh="目标函数">Objective</td>
+                <td>\(W_a,\Delta t_t,\alpha_L,\alpha_E,\alpha_T,\alpha_Q,\alpha_\tau,\alpha_D,\alpha_B,\alpha_C,\alpha_V,\alpha_S,\alpha_F\)</td>
+                <td data-en="Restoration gain, action duration and reward weights used by the closed-loop policy." data-zh="恢复收益、动作时长和闭环策略使用的奖励权重。">Restoration gain, action duration and reward weights used by the closed-loop policy.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="subsection-head">
+          <h3 data-en="Implemented Constraint Catalogue" data-zh="已实现约束目录">Implemented Constraint Catalogue</h3>
+          <p
+            data-en="These equations summarize the constraints supported by the current closed-loop code and result fields. Numerical thresholds are defined in the experiment protocol rather than embedded as unexplained constants."
+            data-zh="这些公式概括当前闭环代码和结果字段支持的约束。数值阈值应在实验协议中定义，而不是作为未解释常数直接写入模型。"
+          >
+            These equations summarize the constraints supported by the current closed-loop code and result fields. Numerical thresholds are defined in the experiment protocol rather than embedded as unexplained constants.
+          </p>
+        </div>
+        <div class="table-wrap model-table-wrap">
+          <table class="constraint-table math-table">
+            <thead>
+              <tr>
+                <th data-en="Block" data-zh="模块">Block</th>
+                <th data-en="Mathematical form" data-zh="数学形式">Mathematical form</th>
+                <th data-en="Meaning" data-zh="说明">Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-en="Failure release" data-zh="故障释放">Failure release</td>
+                <td>\(\mathcal F_t=\{e\in\mathcal F\mid \rho_e\le k_t,\ e\notin\mathcal R_t\}\)</td>
+                <td data-en="Only released and unrestored faults can be selected." data-zh="只有已释放且尚未恢复的故障边可以被选择。">Only released and unrestored faults can be selected.</td>
               </tr>
               <tr>
-                <td data-en="Traffic" data-zh="交通">Traffic</td>
-                <td><code>r_{m,t} in R^T_{m,t}</code></td>
-                <td data-en="The selected route must remain reachable under road damage and congestion." data-zh="所选路径必须在道路损坏和拥堵条件下仍可达。">The selected route must remain reachable under road damage and congestion.</td>
+                <td data-en="Task domain" data-zh="任务域">Task domain</td>
+                <td>\(a_t^{dir},a_t^{relay},a_t^{dual}\Rightarrow k(a_t)\in\mathcal F_t,\quad a_t^{pre}\Rightarrow k(a_t)\in\mathcal F_t\cup\mathcal F^{lat}_t\)</td>
+                <td data-en="Restoration actions target released faults, while predeployment can also target latent faults that are scheduled for later release." data-zh="恢复动作指向已释放故障，预部署动作也可指向后续释放的潜在故障。">Restoration actions target released faults, while predeployment can also target latent faults that are scheduled for later release.</td>
               </tr>
               <tr>
-                <td data-en="Communication" data-zh="通信">Communication</td>
-                <td><code>q_{c,t} >= q_min</code></td>
-                <td data-en="The control packet delivery rate must support the selected action." data-zh="控制链路包交付率必须支撑所选动作。">The control packet delivery rate must support the selected action.</td>
+                <td data-en="Power topology" data-zh="电力拓扑">Power topology</td>
+                <td>\(\mathcal V^{P,on}_t=\operatorname{Reach}(v_0^P,\{e\in\mathcal E^P\mid x^P_{e,t}=1\})\)</td>
+                <td data-en="Energized buses are the buses reachable from the source through closed or restored feeders." data-zh="带电节点由电源点沿闭合或已恢复馈线可达的节点组成。">Energized buses are the buses reachable from the source through closed or restored feeders.</td>
               </tr>
               <tr>
-                <td data-en="Communication" data-zh="通信">Communication</td>
-                <td><code>d_{c,t} <= d_max</code></td>
-                <td data-en="The communication delay must stay below the action deadline." data-zh="通信时延必须低于动作执行期限。">The communication delay must stay below the action deadline.</td>
+                <td data-en="Restoration monotonicity" data-zh="恢复单调性">Restoration monotonicity</td>
+                <td>\(x^P_{e,t+1}\ge x^P_{e,t},\quad \mathcal R_t=\{e\in\mathcal F\mid x^P_{e,t}=1\}\)</td>
+                <td data-en="A repaired feeder remains repaired in the current closed-loop episode." data-zh="当前闭环回合中已修复馈线保持修复状态。">A repaired feeder remains repaired in the current closed-loop episode.</td>
               </tr>
               <tr>
-                <td data-en="Control" data-zh="控制">Control</td>
-                <td><code>z^{ctrl}_{i,t} = 1</code></td>
-                <td data-en="The relevant controller must be powered and reachable." data-zh="相关控制器必须带电并可通信。">The relevant controller must be powered and reachable.</td>
+                <td data-en="Load service" data-zh="负荷服务">Load service</td>
+                <td>\(0\le p^{srv}_{i,t}\le p^d_i z^P_{i,t},\quad e^{shed}_{t}=\Delta t_t\sum_i(p^d_i-p^{srv}_{i,t})\)</td>
+                <td data-en="Served load is bounded by demand and energization. Shed energy is accumulated over the action duration." data-zh="服务负荷受需求和带电状态约束，弃供电量按动作时长累计。">Served load is bounded by demand and energization. Shed energy is accumulated over the action duration.</td>
               </tr>
               <tr>
-                <td data-en="Fleet" data-zh="车队">Fleet</td>
-                <td><code>sum_k u_{m,k,t} <= 1</code></td>
-                <td data-en="Each mobile resource can serve at most one task in a decision segment." data-zh="每个移动资源在一个决策时段最多服务一个任务。">Each mobile resource can serve at most one task in a decision segment.</td>
+                <td data-en="AC feasibility" data-zh="AC 可行性">AC feasibility</td>
+                <td>\(\underline V\le V_{i,t}\le\overline V,\quad \ell_{e,t}\le\overline \ell_e\)</td>
+                <td data-en="The AC adapter checks bus voltage and line loading after each closed-loop action." data-zh="AC 适配器在每个闭环动作后检查节点电压和线路负载率。">The AC adapter checks bus voltage and line loading after each closed-loop action.</td>
               </tr>
               <tr>
-                <td data-en="Actionability" data-zh="可执行性">Actionability</td>
-                <td><code>chi^P chi^T chi^C chi^Z chi^B chi^U = 1</code></td>
-                <td data-en="A candidate passes only when all layer gates and memory gates are satisfied." data-zh="候选动作只有在所有层门控和记忆门控满足时才能通过。">A candidate passes only when all layer gates and memory gates are satisfied.</td>
+                <td data-en="Power gate" data-zh="电力门控">Power gate</td>
+                <td>\(\chi^P_{k,t}=\mathbf 1\{\underline V\le V^{(k)}_{i,t}\le\overline V,\ \ell^{(k)}_{e,t}\le\overline\ell_e,\ \forall i,e\}\)</td>
+                <td data-en="A candidate is power-feasible only if the post-action AC check stays within voltage and loading limits." data-zh="候选动作执行后的 AC 检查若满足电压和负载率限制，则该动作电力可行。">A candidate is power-feasible only if the post-action AC check stays within voltage and loading limits.</td>
+              </tr>
+              <tr>
+                <td data-en="Mobile support" data-zh="移动支撑">Mobile support</td>
+                <td>\(0\le p^M_t\le \bar P^M n^M_t,\quad 0\le p^V_t\le \min(\bar P^V n^V_t,60E^V_t/\Delta t_t)\)</td>
+                <td data-en="MESS and V2G support are bounded by available units, rated power and remaining energy." data-zh="移动储能和 V2G 支撑受可用数量、额定功率和剩余能量约束。">MESS and V2G support are bounded by available units, rated power and remaining energy.</td>
+              </tr>
+              <tr>
+                <td data-en="Resource energy" data-zh="资源能量">Resource energy</td>
+                <td>\(E^M_{t+1}=E^M_t-p^M_t\Delta t_t/60,\quad E^V_{t+1}=E^V_t-p^V_t\Delta t_t/60\)</td>
+                <td data-en="Remaining MESS and V2G energy is updated after an applied restoration action." data-zh="恢复动作成功执行后更新移动储能和 V2G 剩余能量。">Remaining MESS and V2G energy is updated after an applied restoration action.</td>
+              </tr>
+              <tr>
+                <td data-en="Energy gate" data-zh="能量门控">Energy gate</td>
+                <td>\(\chi^E_{k,t}=\mathbf 1\{E^M_t\ge e^M_{k,t},\ E^V_t\ge e^V_{k,t}\},\quad e^M_{k,t}=p^M_{k,t}\Delta t_t/60\)</td>
+                <td data-en="The action is admitted only when the remaining MESS and V2G energy can cover the projected support." data-zh="只有移动储能和 V2G 剩余能量能够覆盖预计支撑量时，动作才被准入。">The action is admitted only when the remaining MESS and V2G energy can cover the projected support.</td>
+              </tr>
+              <tr>
+                <td data-en="Traffic mapping" data-zh="交通映射">Traffic mapping</td>
+                <td>\(\mathcal E^T(k)=\{r\in\mathcal E^T\mid (i,r,\mathrm{road\_lighting})\in\mathcal D,\ i\in\partial k\}\)</td>
+                <td data-en="The target road set is obtained from dependencies between PDN endpoints and UTN edges." data-zh="目标道路集合由配电边端点与交通边之间的依赖关系得到。">The target road set is obtained from dependencies between PDN endpoints and UTN edges.</td>
+              </tr>
+              <tr>
+                <td data-en="Travel time" data-zh="行程时间">Travel time</td>
+                <td>\(\tau^T_{k,t}=|\mathcal E^T(k)|^{-1}\sum_{r\in\mathcal E^T(k)}\tau^{SUMO}_{r,t},\quad \tilde\tau^T_{k,t}=\gamma^T\tau^T_{k,t}\)</td>
+                <td data-en="SUMO or TraCI feedback supplies route travel time, then the robust multiplier forms the conservative travel estimate." data-zh="SUMO 或 TraCI 反馈提供路径行程时间，再由鲁棒倍率形成保守行程估计。">SUMO or TraCI feedback supplies route travel time, then the robust multiplier forms the conservative travel estimate.</td>
+              </tr>
+              <tr>
+                <td data-en="Traffic feasibility" data-zh="交通可行性">Traffic feasibility</td>
+                <td>\(\chi^T_{k,t}=\mathbf 1\{o^T_t=\mathrm{ok},\ \tilde\tau^T_{k,t}\le\bar\tau^T\}\)</td>
+                <td data-en="A task is traffic-feasible only when the traffic adapter succeeds and the robust travel time is acceptable." data-zh="只有交通适配器成功且鲁棒行程时间不超过上限时，任务才交通可行。">A task is traffic-feasible only when the traffic adapter succeeds and the robust travel time is acceptable.</td>
+              </tr>
+              <tr>
+                <td data-en="Packet evidence" data-zh="通信包证据">Packet evidence</td>
+                <td>\(q_{k,t}=N_t^{-1}\sum_{n=1}^{N_t}\mathbf 1\{\xi_{n,t}=1\},\quad d_{k,t}=N_t^{-1}\sum_{n=1}^{N_t}d_{n,t}\)</td>
+                <td data-en="Packet delivery rate and mean delay are computed from ns-3 packet evidence or the configured fallback evidence." data-zh="包交付率和平均时延由 ns-3 通信包证据或配置的回退证据计算。">Packet delivery rate and mean delay are computed from ns-3 packet evidence or the configured fallback evidence.</td>
+              </tr>
+              <tr>
+                <td data-en="Communication gate" data-zh="通信门控">Communication gate</td>
+                <td>\(\chi^C_{k,t}=\mathbf 1\{q_{k,t}\ge\underline q,\ d_{k,t}\le\overline d\}\)</td>
+                <td data-en="The selected action requires sufficient packet delivery and bounded communication delay." data-zh="所选动作要求足够的包交付率和有界通信时延。">The selected action requires sufficient packet delivery and bounded communication delay.</td>
+              </tr>
+              <tr>
+                <td data-en="Relay availability" data-zh="中继可用性">Relay availability</td>
+                <td>\(u^{relay}_{k,t}\in\{0,1\},\quad u^{relay}_{k,t}\le\mathbf 1\{|\mathcal U|>0\},\quad q^{relay}_{k,t}=g_q(q_{k,t},\tilde\tau^T_{k,t},h^{pre}_{k,t})\)</td>
+                <td data-en="UAV relay and dual-channel actions are admitted only when UAV resources exist; their communication quality is adjusted by travel burden and predeployment." data-zh="无人机中继和双通道动作只有在无人机资源存在时才可准入，其通信质量受行程负担和预部署状态影响。">UAV relay and dual-channel actions are admitted only when UAV resources exist; their communication quality is adjusted by travel burden and predeployment.</td>
+              </tr>
+              <tr>
+                <td data-en="Predeployment memory" data-zh="预部署记忆">Predeployment memory</td>
+                <td>\(h^{pre}_{k,t+1}=\max\{h^{pre}_{k,t},\mathbf 1(a_t=a^{pre}_k)\},\quad \delta^{relay}_{k,t}=\delta^{0,relay}(1-h^{pre}_{k,t})\)</td>
+                <td data-en="A predeployed relay target is remembered and later reduces relay coordination time." data-zh="预部署中继目标被状态记忆，并在后续动作中减少中继协同时间。">A predeployed relay target is remembered and later reduces relay coordination time.</td>
+              </tr>
+              <tr>
+                <td data-en="Powered controller" data-zh="带电控制器">Powered controller</td>
+                <td>\(\mathcal V^{C,on}_t=\{c\mid (i,c,\mathrm{power})\in\mathcal D,\ i\in\mathcal V^{P,on}_t\}\)</td>
+                <td data-en="Communication controllers are available only when their supplying PDN buses are energized." data-zh="通信控制器只有在其供电配电节点带电时才可用。">Communication controllers are available only when their supplying PDN buses are energized.</td>
+              </tr>
+              <tr>
+                <td data-en="Controller mapping" data-zh="控制映射">Controller mapping</td>
+                <td>\(\mathcal C_k=\{c\in\mathcal V^C\mid (c,k,\mathrm{switch})\in\mathcal D\}\)</td>
+                <td data-en="The switch controllability relation maps each feeder task to the communication controllers that can issue its switching command." data-zh="开关可控关系将每个馈线任务映射到能够下发开关指令的通信控制器。">The switch controllability relation maps each feeder task to the communication controllers that can issue its switching command.</td>
+              </tr>
+              <tr>
+                <td data-en="Switch controllability" data-zh="开关可控性">Switch controllability</td>
+                <td>\(\chi^Z_{k,t}=\mathbf 1\{\mathcal C_k=\varnothing\ \vee\ \mathcal C_k\cap\mathcal V^{C,on}_t\ne\varnothing\ \vee\ u^{relay}_{k,t}=1\}\)</td>
+                <td data-en="A feeder can be restored when no controller is required, a required controller is powered, or an admitted UAV relay provides control." data-zh="当不需要控制器、所需控制器带电或准入无人机中继提供控制时，馈线才可恢复。">A feeder can be restored when no controller is required, a required controller is powered, or an admitted UAV relay provides control.</td>
+              </tr>
+              <tr>
+                <td data-en="Fleet assignment" data-zh="车队分配">Fleet assignment</td>
+                <td>\(\sum_{k\in\mathcal F_t}u_{m,k,t}\le 1,\quad \sum_{m\in\mathcal M}u_{m,k,t}\le 1\)</td>
+                <td data-en="Each mobile resource serves at most one released task, and each task receives at most one primary mobile assignment in a decision segment." data-zh="每个移动资源在一个决策时段最多服务一个释放任务，每个任务最多获得一个主移动资源分配。">Each mobile resource serves at most one released task, and each task receives at most one primary mobile assignment in a decision segment.</td>
+              </tr>
+              <tr>
+                <td data-en="Fleet gate" data-zh="车队门控">Fleet gate</td>
+                <td>\(\chi^U_{k,t}=\mathbf 1\{\exists m\in\mathcal M:u_{m,k,t}=1\ \vee\ a_t\in\mathcal A_t^{pre}\cup\{a_t^{wait}\}\}\)</td>
+                <td data-en="Restoration requires an available mobile assignment unless the action is a predeployment or wait action." data-zh="恢复动作需要可用移动资源分配，预部署和等待动作除外。">Restoration requires an available mobile assignment unless the action is a predeployment or wait action.</td>
+              </tr>
+              <tr>
+                <td data-en="Action duration" data-zh="动作时长">Action duration</td>
+                <td>\(\Delta t_t(a)=\Delta t^0+\tilde\tau^T_{k,t}/60+\delta^{relay}_{k,t}+\delta^{retry}_{k,t}\)</td>
+                <td data-en="Execution time combines the base decision duration, robust travel time, relay coordination and retry time when communication is unavailable." data-zh="执行时长由基础决策时长、鲁棒行程时间、中继协同时间和通信不可用时的重试时间构成。">Execution time combines the base decision duration, robust travel time, relay coordination and retry time when communication is unavailable.</td>
+              </tr>
+              <tr>
+                <td data-en="Executable action set" data-zh="可执行动作集">Executable action set</td>
+                <td>\(\mathcal A^{safe}_t=\{a\in\mathcal A_t\mid \chi^P_{a,t}\chi^T_{a,t}\chi^C_{a,t}\chi^Z_{a,t}\chi^E_{a,t}\chi^U_{a,t}=1\}\)</td>
+                <td data-en="An action is executable only when power, traffic, communication, controller, energy and fleet gates are all satisfied." data-zh="只有电力、交通、通信、控制器、能量和车队门控全部满足时，动作才可执行。">An action is executable only when power, traffic, communication, controller, energy and fleet gates are all satisfied.</td>
+              </tr>
+              <tr>
+                <td data-en="Action application" data-zh="动作执行">Action application</td>
+                <td>\(y_{a,t}=\mathbf 1\{a_t\in\mathcal A^{safe}_t\},\quad b_{a,t}=1-y_{a,t}\)</td>
+                <td data-en="The environment applies an admitted action and records a blocked attempt when any gate fails." data-zh="环境执行已准入动作，并在任一门控失败时记录阻塞尝试。">The environment applies an admitted action and records a blocked attempt when any gate fails.</td>
+              </tr>
+              <tr>
+                <td data-en="Restoration transition" data-zh="恢复转移">Restoration transition</td>
+                <td>\(\mathcal R_{t+1}=\mathcal R_t\cup\{k(a_t)\mid y_{a,t}=1,\ a_t\in\mathcal A_t^{dir}\cup\mathcal A_t^{relay}\cup\mathcal A_t^{dual}\}\)</td>
+                <td data-en="A feeder is added to the restored set only after an admitted restoration action is applied." data-zh="只有准入恢复动作被执行后，目标馈线才加入已恢复集合。">A feeder is added to the restored set only after an admitted restoration action is applied.</td>
+              </tr>
+              <tr>
+                <td data-en="Terminal condition" data-zh="终止条件">Terminal condition</td>
+                <td>\(g_t=\mathbf 1\{\mathcal F_t=\varnothing\},\quad T_{end}=\min\{t\mid g_t=1\}\)</td>
+                <td data-en="The episode reaches full restoration when all released faults are restored; terminal time is reported as a primary metric." data-zh="所有已释放故障恢复后回合达到全恢复，终止时间作为主要指标报告。">The episode reaches full restoration when all released faults are restored; terminal time is reported as a primary metric.</td>
               </tr>
             </tbody>
           </table>
@@ -274,14 +413,30 @@
         <div class="objective-panel">
           <h3 data-en="Total Objective" data-zh="总优化目标">Total Objective</h3>
           <p
-            data-en="The objective maximizes critical load restoration and penalizes shed energy, terminal time, unsafe attempts, communication loss and controller unavailability."
-            data-zh="总目标最大化关键负荷恢复，并惩罚弃供电量、终止时间、不安全尝试、通信损失和控制器不可用。"
+            data-en="The implemented reward maximizes weighted restored load and terminal restoration while penalizing shed energy, action duration, packet loss, traffic delay, communication delay, unavailable control, blocked actions and AC violations."
+            data-zh="已实现奖励最大化加权恢复负荷和终端全恢复，同时惩罚弃供电量、动作时长、丢包、交通延误、通信时延、控制不可用、阻塞动作和 AC 越限。"
           >
-            The objective maximizes critical load restoration and penalizes shed energy, terminal time, unsafe attempts, communication loss and controller unavailability.
+            The implemented reward maximizes weighted restored load and terminal restoration while penalizing shed energy, action duration, packet loss, traffic delay, communication delay, unavailable control, blocked actions and AC violations.
           </p>
-          <code>
-            max pi sum_t [ alpha_L L^{serve}_t - alpha_E E^{shed}_t - alpha_T Delta t_t - alpha_C(1 - q_t) - alpha_D max(d_t - d_max, 0) - alpha_B B_t + alpha_F F_t ]
-          </code>
+          <div class="formula-block">\[
+            \begin{aligned}
+            \max_{\pi}\quad
+            &\mathbb E_{\pi}\sum_{t\in\mathcal T}
+            \Big[
+            \alpha_L W_{a_t}
+            -\alpha_E e^{shed}_t
+            -\alpha_T\Delta t_t
+            -\alpha_Q(1-q_{a_t,t})\\
+            &-\alpha_\tau[\tau^T_t-\bar\tau^0]_+
+            -\alpha_D[d_{a_t,t}-\bar d]_+
+            -\alpha_B b_{a_t,t}
+            -\alpha_C(1-\chi^C_{a_t,t}\chi^Z_{a_t,t})\\
+            &-\alpha_V[\underline V-\min_i V_{i,t}]_+
+            -\alpha_S[\max_e \ell_{e,t}-\bar \ell]_+
+            +\alpha_F\mathbf 1\{\mathcal F_t=\varnothing\}
+            \Big].
+            \end{aligned}
+          \]</div>
         </div>
       </section>
 
@@ -324,7 +479,12 @@
         </div>
         <div class="objective-panel algorithm-equation">
           <h3 data-en="Action Selection Rule" data-zh="动作选择规则">Action Selection Rule</h3>
-          <code>a_t^* = argmax_{a in A_t^safe} [ S_pi(s_t, a) + lambda_R Z_phi(s_t, a) + lambda_K kappa_t(a) ]</code>
+          <div class="formula-block">\[
+            a_t^\star=\arg\max_{a\in\mathcal A_t^{\mathrm{safe}}}
+            \left[
+            S_\pi(s_t,a)+\lambda_R Z_\phi(s_t,a)+\lambda_K\kappa_t(a)
+            \right].
+          \]</div>
         </div>
         <figure class="wide-figure">
           <img src="assets/figures/actionability_fleet_gate.png" alt="Actionability and fleet gate evidence" />
@@ -394,16 +554,16 @@
       <section id="software" class="section">
         <div class="section-heading">
           <p class="eyebrow" data-en="Software evidence" data-zh="软件证据">Software evidence</p>
-          <h2 data-en="Restoration Replay Recorded from PTINPixelViewer" data-zh="由 PTINPixelViewer 录制的恢复回放">Restoration Replay Recorded from PTINPixelViewer</h2>
+          <h2 data-en="Restoration Replay Generated from PTINPixelViewer" data-zh="由 PTINPixelViewer 生成的恢复回放">Restoration Replay Generated from PTINPixelViewer</h2>
         </div>
         <div class="software-grid">
           <figure>
             <img src="assets/restoration_replay.gif" alt="SAFE-GPINN software replay GIF" />
             <figcaption
-              data-en="GIF recorded by running dist/PTINPixelViewer/PTINPixelViewer.exe and loading the official disaster-restoration timeline through the local loopback viewer."
-              data-zh="该 GIF 由 dist/PTINPixelViewer/PTINPixelViewer.exe 运行后，通过本地回环 viewer 加载官方灾后恢复时间线录制。"
+              data-en="The 30 fps web GIF is generated from EXE-rendered PTINPixelViewer recovery states after loading the official disaster-restoration timeline through the local loopback viewer."
+              data-zh="该 30 fps 网页 GIF 由 PTINPixelViewer 可执行程序渲染的恢复状态生成，状态来自本地回环 viewer 加载的官方灾后恢复时间线。"
             >
-              GIF recorded by running dist/PTINPixelViewer/PTINPixelViewer.exe and loading the official disaster-restoration timeline through the local loopback viewer.
+              The 30 fps web GIF is generated from EXE-rendered PTINPixelViewer recovery states after loading the official disaster-restoration timeline through the local loopback viewer.
             </figcaption>
           </figure>
           <figure>
